@@ -1,0 +1,118 @@
+---
+title: "Mixed Models with R"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+```{r chunk_setup, include=FALSE, eval=TRUE}
+knitr::opts_chunk$set(echo = T, message=F, warning=F, comment=NA, autodep=F, 
+                      eval=T, cache.rebuild=F, cache=T, R.options=list(width=120), 
+                      fig.width=8, fig.align = 'center', dev.args=list(bg = 'transparent'), dev='svglite')
+```
+
+```{r basic_packages}
+library(tidyverse)
+```
+
+
+# Introduction
+
+## Basic Linear Model
+
+Note the output that you get from a standard regression.
+
+```{r}
+library(lme4)
+
+lm_model = lm(Reaction ~ Days, data = sleepstudy)
+summary(lm_model)
+```
+
+Now we will run a mixed model.  Here we will allow for *random effects*, which are specific effects for each individual.
+
+```{r}
+mixed_model = lmer(Reaction ~ Days + (1 + Days|Subject), data = sleepstudy)
+
+summary(mixed_model)
+```
+
+Three parts of the above output are the same as we would get using the `lm` function.  The 'fixed effects' coefficients are in fact identical, though we can see they have different standard errors.  In addition, we have the residual variance and standard deviation.  The latter is the same thing as the residual standard error from `lm`, but we can see its value is different.  That *unexplained* variance has now been partitioned into different parts.
+
+In this model we allow both intercepts and the coefficient for Days to vary by student.  The estimated standard deviation tells what how much we would deviate from the normal effect (i.e. the fixed effects above) as we move from student to student, on average.
+
+```{r variance_components}
+print(VarCorr(mixed_model), comp=c('Var', 'Std')) 
+```
+
+
+We can get estimates of these individual specific deviations.
+
+```{r random_effects}
+random_effects = ranef(mixed_model)$Subject
+random_effects
+```
+
+Or we can add them to the fixed effects, allowing us to think in terms of *random coefficients*.
+
+```{r random_coefficients}
+random_coefficients = coef(mixed_model)$Subject
+```
+
+As you can imagine, this would be notably better for prediction than assuming the same intercept and slope for everyone.
+
+```{r plot_fixed_effect}
+fixed_effects = fixef(mixed_model)
+random_effects  = 
+  random_coefficients %>% 
+  mutate(Subject = factor(unique(sleepstudy$Subject)))
+
+sleepstudy %>% 
+  ggplot(aes(Days, Reaction)) +
+  geom_point(aes(color = Subject), alpha = .25) +
+  geom_abline(
+    aes(
+      intercept = fixed_effects['(Intercept)'],
+      slope = fixed_effects['Days']),
+    color = 'darkred',
+    size = 2) +
+  geom_abline(
+    aes(
+      intercept = `(Intercept)`, 
+      slope = Days,
+      color = Subject),
+    size = .5,
+    alpha = .25,
+    data = random_effects) 
+```
+
+
+Each individual is allowed to have their own say, but we still refer to the general `population` effect.
+
+```{r animate_effects}
+library(gganimate)
+
+# this may take up to a minute to produce, and will show in your viewer
+sleepstudy %>% 
+  ggplot(aes(Days, Reaction)) +
+  geom_abline(
+    aes(
+      intercept = fixed_effects['(Intercept)'],
+      slope = fixed_effects['Days']),
+    color = 'darkred',
+    size = 2,
+    alpha = .1) +
+  geom_point(aes(color = Subject), alpha = 1) +
+  geom_abline(
+    aes(
+      intercept = `(Intercept)`, 
+      slope = Days,
+      group = Subject,
+      color = Subject),
+    size = .5,
+    alpha = .25,
+    data = random_effects) + 
+  transition_states(Subject)
+```
+

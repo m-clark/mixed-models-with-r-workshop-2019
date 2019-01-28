@@ -1,5 +1,5 @@
 ---
-title: "Mixed Models with R"
+title: "Mixed Models: Basics"
 output: html_notebook
 editor_options: 
   chunk_output_type: inline
@@ -17,24 +17,25 @@ library(tidyverse)
 ```
 
 
-# Introduction
-
-## Basic Linear Model
-
-Note the output that you get from a standard regression.
-
-```{r}
-lm_model = lm(Reaction ~ Days, data = sleepstudy)
-summary(lm_model)
+```{r gpa_lm}
+load('data/gpa.RData')
+gpa_lm = lm(gpa ~ occasion, data=gpa)
+summary(gpa_lm)
 ```
 
-Now we will run a mixed model.  Here we will have a *random effects* for an individual.
-
-```{r}
+```{r gpa_mixed}
 library(lme4)
-
-mixed_model = lmer(Reaction ~ Days + (1 + Days|Subject), data = sleepstudy)
-
-summary(mixed_model)
+gpa_mixed = lmer(gpa ~ occasion + (1|student), data=gpa)
+summary(gpa_mixed)
 ```
+
+
+```{r gpa_mixed_confint}
+confint(gpa_mixed)
+```
+
+```{r gpa_mixed_ranef}
+ranef(gpa_mixed)$student %>% head(5)
+```
+
 
