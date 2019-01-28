@@ -1,0 +1,40 @@
+---
+title: "Mixed Models with R"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+```{r chunk_setup, include=FALSE, eval=TRUE}
+knitr::opts_chunk$set(echo = T, message=F, warning=F, comment=NA, autodep=F, 
+                      eval=T, cache.rebuild=F, cache=T, R.options=list(width=120), 
+                      fig.width=8, fig.align = 'center', dev.args=list(bg = 'transparent'), dev='svglite')
+```
+
+```{r basic_packages}
+library(tidyverse)
+```
+
+
+# Introduction
+
+## Basic Linear Model
+
+Note the output that you get from a standard regression.
+
+```{r}
+lm_model = lm(Reaction ~ Days, data = sleepstudy)
+summary(lm_model)
+```
+
+Now we will run a mixed model.  Here we will have a *random effects* for an individual.
+
+```{r}
+library(lme4)
+
+mixed_model = lmer(Reaction ~ Days + (1 + Days|Subject), data = sleepstudy)
+
+summary(mixed_model)
+```
+
