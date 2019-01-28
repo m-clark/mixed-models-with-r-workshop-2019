@@ -1,0 +1,141 @@
+---
+title: "More Random Effects"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+```{r chunk_setup, include=FALSE, eval=TRUE}
+knitr::opts_chunk$set(echo = T, message=F, warning=F, comment=NA, autodep=F, 
+                      eval=T, cache.rebuild=F, cache=T, R.options=list(width=120), 
+                      fig.width=8, fig.align = 'center', dev.args=list(bg = 'transparent'), dev='svglite')
+```
+
+```{r catchup}
+# if needed
+library(tidyverse)
+library(lme4)
+
+load('data/gpa.RData')
+
+gpa_lm = lm(gpa ~ occasion, data=gpa)
+```
+
+## Application
+
+Add a random slope and examine the results.
+
+```{r random_slope}
+gpa_mixed =  lmer(gpa ~ occasion + (1 + occasion|student), data=gpa)
+summary(gpa_mixed)
+```
+
+### Explore Random Effects
+
+As before we can examine the per-student random effects.
+
+```{r random_effects}
+ranef(gpa_mixed)$student
+```
+
+Unlike before, we see each student's occasion effect.
+
+```{r random_coefficients}
+coef(gpa_mixed)$student
+```
+
+
+## Comparison to Many Regressions
+
+The following code calculates regression models for each student (i.e. six observations apiece). Density plots are shown comparing
+
+```{r by_group}
+gpa_lm_by_group0 = lmList(gpa ~ occasion | student, gpa)
+gpa_lm_by_group = coef(gpa_lm_by_group0)
+
+gint = 
+  data_frame(Mixed=coef(gpa_mixed)$student[,1], Separate=gpa_lm_by_group[,1]) %>% 
+  gather(key=Model, value=Intercept) %>% 
+  ggplot(aes(x=Intercept)) +
+  geom_density(aes(color=Model, fill=Model), alpha=.25) +
+  scale_color_viridis_d(begin = .25, end = .75) +
+  scale_fill_viridis_d(begin = .25, end = .75) +
+  ggtitle('Intercepts') +
+  labs(x='', y='') +
+  xlim(c(1.5,4)) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    legend.key.size=unit(2, 'mm'),
+    legend.title=element_text(size=8),
+    legend.text=element_text(size=8),
+    legend.box.spacing=unit(0, 'in'),
+    legend.position=c(.85,.75)
+    )
+
+gslopes = 
+  data_frame(Mixed=coef(gpa_mixed)$student[,2], Separate=gpa_lm_by_group[,2]) %>% 
+  gather(key=Model, value=Occasion) %>% 
+  ggplot(aes(x=Occasion)) +
+  geom_density(aes(color=Model, fill=Model), alpha=.25, show.legend=F) +
+  scale_color_viridis_d(begin = .25, end = .75) +
+  scale_fill_viridis_d(begin = .25, end = .75) +
+  ggtitle('Slopes for occasion') +
+  labs(x='', y='') +
+  xlim(c(-.2,.4)) +
+  theme_minimal() +
+  theme(
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+
+library(patchwork)
+gint + gslopes
+
+```
+
+## Visualization of Effects
+
+
+First we can look at the mixed effects results.
+
+```{r visualize_mixed_fit}
+# add if you want, not displayed as there are only a couple negative slopes
+going_down = factor(rep(coef(gpa_mixed)$student[,'occasion']<0, e=6), labels=c('Up', 'Down'))
+
+library(modelr) # allows us to add predictions to the data frame
+gpa %>% 
+  add_predictions(gpa_lm, var='lm') %>% 
+  add_predictions(gpa_mixed, var='mixed') %>% 
+  ggplot() + 
+  geom_line(aes(x=occasion, y=mixed, group=student), alpha=.1, color='#00aaff') +
+  geom_line(aes(x=occasion, y=lm, group=student), color='#ff5500') +
+  labs(y='gpa') + 
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank())
+```
+
+Now we can see the messier 'by-group' approach.  General trends are ignored, and many more are predicted with downward trends when they probably shouldn't be.
+
+```{r visualize_by_group_fit}
+going_down = factor(rep(gpa_lm_by_group[,'occasion']<0, e=6), labels=c('Upward', 'Downward'))
+
+gpa %>% 
+  mutate(stufit=fitted(gpa_lm_by_group0)) %>% 
+  add_predictions(gpa_lm, var='gpa') %>% 
+  add_predictions(gpa_lm, var='lm') %>% 
+  ggplot() +
+  geom_line(aes(x=occasion, y=stufit, group=student, color=going_down, alpha = going_down)) +
+  geom_line(aes(x=occasion, y=lm), 
+            color='#ff5500') +
+  labs(y='gpa') + 
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major.x = element_blank())
+```
+
+

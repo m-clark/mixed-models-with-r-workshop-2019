@@ -12,16 +12,31 @@ knitr::opts_chunk$set(echo = T, message=F, warning=F, comment=NA, autodep=F,
                       fig.width=8, fig.align = 'center', dev.args=list(bg = 'transparent'), dev='svglite')
 ```
 
+
+## Example: Student GPA
+
 ```{r basic_packages}
 library(tidyverse)
 ```
 
 
-```{r gpa_lm}
+```{r load_gpa_data}
 load('data/gpa.RData')
+gpa
+```
+
+## Application
+
+### Standard Regression
+
+A standard linear regression model. We have coefficients for the intercept and the effect of time, and in addition, the variance of the observations (residual standard error).
+
+```{r gpa_lm}
 gpa_lm = lm(gpa ~ occasion, data=gpa)
 summary(gpa_lm)
 ```
+
+### Mixed Model
 
 ```{r gpa_mixed}
 library(lme4)
@@ -29,13 +44,35 @@ gpa_mixed = lmer(gpa ~ occasion + (1|student), data=gpa)
 summary(gpa_mixed)
 ```
 
+[As a test, replace `1|student` with `1|sample(1:10, 1200, replace = T)`.  As your variance due to arbitrary grouping is essentially 0, the residual error estimate is similar to the `lm` model.]
+
+
+People always ask where the p-values are, but the answer is... complicated.  You can get interval estimates easily enough, even though they are poorly named for the variance components.
 
 ```{r gpa_mixed_confint}
 confint(gpa_mixed)
 ```
 
+#### Estimated Random Effects
+
+Examine the random effects.
+
 ```{r gpa_mixed_ranef}
-ranef(gpa_mixed)$student %>% head(5)
+ranef(gpa_mixed)$student 
 ```
 
+```{r gpa_mixed_rancoef}
+coef(gpa_mixed)$student 
+```
 
+As we didn't allow the occasion effect to vary, it is constant.
+
+#### Prediction
+
+```{r gpa_mixed_prediction}
+predict(gpa_mixed, re.form=NA) %>% head
+```
+
+## Adding a Cluster-level Covariate
+
+See exercises.
