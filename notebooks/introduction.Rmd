@@ -23,7 +23,7 @@ library(tidyverse)
 
 Note the output that you get from a standard regression.
 
-```{r}
+```{r linear_model}
 library(lme4)
 
 lm_model = lm(Reaction ~ Days, data = sleepstudy)
@@ -32,7 +32,7 @@ summary(lm_model)
 
 Now we will run a mixed model.  Here we will allow for *random effects*, which are specific effects for each individual.
 
-```{r}
+```{r mixed_model}
 mixed_model = lmer(Reaction ~ Days + (1 + Days|Subject), data = sleepstudy)
 
 summary(mixed_model)
@@ -102,7 +102,7 @@ sleepstudy %>%
       slope = fixed_effects['Days']),
     color = 'darkred',
     size = 2,
-    alpha = .1) +
+    alpha = .01) +
   geom_point(aes(color = Subject), alpha = 1) +
   geom_abline(
     aes(
@@ -113,6 +113,7 @@ sleepstudy %>%
     size = .5,
     alpha = .25,
     data = random_effects) + 
-  transition_states(Subject)
+  transition_states(Subject, 1, 1) +
+  theme_minimal()
 ```
 
