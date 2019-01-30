@@ -1,0 +1,186 @@
+---
+title: "Common Extensions"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+
+```{r chunk_setup, include=FALSE, eval=TRUE}
+knitr::opts_chunk$set(echo = T, message=F, warning=F, comment=NA, autodep=F, 
+                      eval=T, cache.rebuild=F, cache=T, R.options=list(width=120), 
+                      fig.width=8, fig.align = 'center', dev.args=list(bg = 'transparent'), dev='svglite')
+```
+
+```{r catchup}
+# if needed
+library(tidyverse)
+library(lme4)
+
+load('data/gpa.RData')
+
+# if you want to run all the code, you'll need to install the following
+# install.packages(c('sjstats', 'merTools', 'broom'))
+```
+
+
+## Additional Grouping Structure
+
+### Crossed random effects
+
+```{r load_pupils_data}
+load('data/pupils.RData')
+
+pupils
+```
+
+#### Primary and Secondary School Random Effects
+
+
+```{r cross_classified}
+pupils_crossed = lmer(achievement ~ sex + ses 
+                      + (1|primary_school_id) + (1|secondary_school_id), 
+                      data = pupils)
+
+summary(pupils_crossed, correlation=F)
+```
+
+```{r crossed_vc}
+VarCorr(pupils_crossed) %>% 
+  print(comp=c('Var', 'Std'), digits=3)
+```
+
+```{r crossed_icc}
+sjstats::icc(pupils_crossed) # relative proportion due to each school
+```
+
+```{r crossed_re}
+str(ranef(pupils_crossed))
+```
+
+
+```{r crossed_re_plot, echo=FALSE}
+merTools::plotREsim(merTools::REsim(pupils_crossed)) +
+  theme_minimal()
+```
+
+
+### Hierarchical Structure
+
+```{r nurses_data, echo=1}
+load('data/nurses.RData')
+
+nurses
+```
+
+
+```{r hierarchical}
+nurses_hierarchical = lmer(stress ~ age + sex + experience 
+                           + treatment + wardtype + hospsize 
+                           + (1|hospital) + (1|hospital:ward), 
+                           data = nurses)
+
+nurses_hierarchical = lmer(stress ~ age  + sex + experience 
+                           + treatment + wardtype + hospsize 
+                           + (1|hospital/ward), 
+                           data = nurses) # same thing!
+
+summary(nurses_hierarchical, correlation=F)
+```
+
+```{r hierarchical_fixed}
+nurses_hierarchical %>% 
+  broom::tidy('fixed', conf.int=T) %>% 
+  mutate_if(is.numeric, round, digits = 2)
+```
+
+
+As far as the fixed effects go, about the only thing that doesn't have a statistical effect is ward type.  
+
+
+```{r hierarchical_random}
+VarCorr(nurses_hierarchical)
+```
+
+
+### Crossed vs. Nested
+
+### Crossed vs. Nested
+
+The following shows the difference in the results from treating ward as a nested (within hospital) vs. crossed random effect. What do you notice is different?
+
+```{r crossed_vs_nested}
+nurses_hierarchical1 = lmer(stress ~ age  + sex + experience 
+                           + treatment + wardtype + hospsize 
+                           + (1|hospital) + (1|hospital:ward), data = nurses)
+
+nurses_crossed1 = lmer(stress ~ age  + sex + experience 
+                           + treatment + wardtype + hospsize 
+                           + (1|hospital) + (1|ward), data = nurses)
+
+nurses_crossed2 = lmer(stress ~ age  + sex + experience 
+                           + treatment + wardtype + hospsize 
+                           + (1|hospital) + (1|wardid), data = nurses)
+```
+
+
+```{r crossed_vs_nested}
+VarCorr(nurses_hierarchical1)
+```
+
+```{r crossed_vs_crossed1}
+VarCorr(nurses_crossed1)
+```
+
+```{r crossed_vs_crossed2}
+VarCorr(nurses_crossed2)
+```
+
+
+The first hierarchical model and the second crossed version are identical. The second crossed is incorrectly labeled to be using a crossed notation for the model, as the label doesn't distinguish ward 1 in hospital 1 from ward 1 in hospital 2.  In the second crossed model, we use `wardid` instead of `ward`, so each ward has a unique id, and the proper structure is accounted for with  the crossed syntax.
+
+
+## Residual Structure
+
+
+### Heterogeneous Variances
+
+```{r heterovar}
+library(nlme)
+heterovar_res = lme(gpa ~ occasion, 
+                    data = gpa,
+                    random = ~1|student, 
+                    weights = varIdent(form = ~1|occasion))
+
+summary(heterovar_res)
+```
+
+```{r relative_variances}
+# values are relative to redisual variance and on the standard deviation scale
+summary(heterovar_res$modelStruct)
+```
+
+```{r heterovar_glmmTMB}
+library(glmmTMB)
+heterovar_res2 = glmmTMB(gpa ~ occasion + (1|student) + diag(0 + occas |student), 
+                         data = gpa)
+
+summary(heterovar_res2) # you can ignore the Corr part in the random effects output
+```
+
+```{r glmmtmb_extract_variances}
+vc_glmmtmb = VarCorr(heterovar_res2)
+vc_glmmtmb = attr(vc_glmmtmb$cond$student.1, 'stddev')^2 + sigma(heterovar_res2)^2
+vc_glmmtmb
+```
+
+### Autocorrelation
+
+```{r corr_residual}
+corr_res = lme(gpa ~ occasion, 
+               data = gpa,
+               random = ~1|student, 
+               correlation = corAR1(form = ~occasion))
+
+summary(corr_res)
+```
