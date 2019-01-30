@@ -28,6 +28,8 @@ load('data/gpa.RData')
 
 ### Crossed random effects
 
+Load the pupils data. We'll look at achievement scores for students.  The sources of dependency are due to students having gone to the same primary or secondary schools.  However, in this example, going to a primary school doesn't necessarily mean you'll go to a specific secondary school.  Note also that there are no repeated measures, we see each student only once.
+
 ```{r load_pupils_data}
 load('data/pupils.RData')
 
@@ -36,6 +38,7 @@ pupils
 
 #### Primary and Secondary School Random Effects
 
+We'll do a model with random effects for both primary and secondary school.  As such, we'll get variance components for each as well.
 
 ```{r cross_classified}
 pupils_crossed = lmer(achievement ~ sex + ses 
@@ -44,6 +47,8 @@ pupils_crossed = lmer(achievement ~ sex + ses
 
 summary(pupils_crossed, correlation=F)
 ```
+
+In this case, the primary school displays more variance.
 
 ```{r crossed_vc}
 VarCorr(pupils_crossed) %>% 
@@ -54,18 +59,25 @@ VarCorr(pupils_crossed) %>%
 sjstats::icc(pupils_crossed) # relative proportion due to each school
 ```
 
+Note the specific random effects for 50 distinct primary schools vs. 30 distinct secondary schools.
+
 ```{r crossed_re}
 str(ranef(pupils_crossed))
 ```
 
+We can use the `merTools` package to visualize.  Install it if you haven't already.  This plot allows to visually see the increased variability due to primary schools relative to secondary.
 
-```{r crossed_re_plot, echo=FALSE}
-merTools::plotREsim(merTools::REsim(pupils_crossed)) +
+```{r crossed_re_plot}
+library(merTools)
+
+plotREsim(REsim(pupils_crossed)) +
   theme_minimal()
 ```
 
 
 ### Hierarchical Structure
+
+Load and inspect the nurses data. Here we are interested in the effect of a training program (`treatment`) on stress levels (on a scale of 1-7) of nurses.  In this scenario, nurses are nested within wards, which themselves are nested within hospitals, so we will have random effects pertaining to ward (within hospital) and hospital.
 
 ```{r nurses_data, echo=1}
 load('data/nurses.RData')
@@ -73,6 +85,7 @@ load('data/nurses.RData')
 nurses
 ```
 
+There are two different ways to note a nested structure with `lme4`.  Either is fine.  As before, we have two sources of variability, and with this data it is with ward and hospital.
 
 ```{r hierarchical}
 nurses_hierarchical = lmer(stress ~ age + sex + experience 
@@ -97,19 +110,19 @@ nurses_hierarchical %>%
 
 As far as the fixed effects go, about the only thing that doesn't have a statistical effect is ward type.  
 
+There appears to be more variability due to ward than that due to hospital.
 
 ```{r hierarchical_random}
 VarCorr(nurses_hierarchical)
 ```
 
 
-### Crossed vs. Nested
 
 ### Crossed vs. Nested
 
 The following shows the difference in the results from treating ward as a nested (within hospital) vs. crossed random effect. What do you notice is different?
 
-```{r crossed_vs_nested}
+```{r crossed_vs_nested, message=F}
 nurses_hierarchical1 = lmer(stress ~ age  + sex + experience 
                            + treatment + wardtype + hospsize 
                            + (1|hospital) + (1|hospital:ward), data = nurses)
@@ -124,15 +137,15 @@ nurses_crossed2 = lmer(stress ~ age  + sex + experience
 ```
 
 
-```{r crossed_vs_nested}
+```{r nested1}
 VarCorr(nurses_hierarchical1)
 ```
 
-```{r crossed_vs_crossed1}
+```{r crossed1}
 VarCorr(nurses_crossed1)
 ```
 
-```{r crossed_vs_crossed2}
+```{r crossed2}
 VarCorr(nurses_crossed2)
 ```
 
@@ -162,7 +175,8 @@ summary(heterovar_res$modelStruct)
 
 ```{r heterovar_glmmTMB}
 library(glmmTMB)
-heterovar_res2 = glmmTMB(gpa ~ occasion + (1|student) + diag(0 + occas |student), 
+heterovar_res2 = glmmTMB(gpa ~ occasion 
+                         + (1|student) + diag(0 + occas |student), 
                          data = gpa)
 
 summary(heterovar_res2) # you can ignore the Corr part in the random effects output
@@ -177,10 +191,31 @@ vc_glmmtmb
 ### Autocorrelation
 
 ```{r corr_residual}
-corr_res = lme(gpa ~ occasion, 
-               data = gpa,
-               random = ~1|student, 
-               correlation = corAR1(form = ~occasion))
+corr_res = lme(
+  gpa ~ occasion, 
+  data = gpa,
+  random = ~1|student, 
+  correlation = corAR1(form = ~occasion)
+)
 
 summary(corr_res)
 ```
+
+## Generalized Linear Mixed Models
+
+Note that `nlme` does not model beyond the gaussian distribution, so we go back to using `lme4` and the `glmer` function.  You may notice that it takes the model a second or two even though it is not that complex.  GLMM are often hard to estimate, and you will often encounter convergence issues.  Scaling the data can help a lot.
+
+```{r glmm_speed_dating}
+load('data/speed_dating.RData')
+
+sd_model = glmer(
+  decision ~ sex + samerace + attractive_sc + sincere_sc + intelligent_sc 
+  + (1|iid), 
+  data = speed_dating,
+  family = binomial
+)
+
+summary(sd_model, correlation=F)
+```
+
+Note that the participant effect (`iid`) is almost as large (in terms of the standard deviation) as the effect of attractiveness.

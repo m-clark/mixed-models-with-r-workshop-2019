@@ -88,7 +88,7 @@ sleepstudy %>%
 ```
 
 
-Each individual is allowed to have their own say, but we still refer to the general `population` effect.
+Each individual is allowed to have their own say, but we can still refer to the general `population` or `typical` effect.
 
 ```{r animate_effects}
 library(gganimate)

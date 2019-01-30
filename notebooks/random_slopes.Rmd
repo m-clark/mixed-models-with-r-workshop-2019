@@ -24,7 +24,7 @@ gpa_lm = lm(gpa ~ occasion, data=gpa)
 
 ## Application
 
-Add a random slope and examine the results.
+Add a random slope to our previous example and examine the results.
 
 ```{r random_slope}
 gpa_mixed =  lmer(gpa ~ occasion + (1 + occasion|student), data=gpa)
@@ -33,7 +33,7 @@ summary(gpa_mixed)
 
 ### Explore Random Effects
 
-As before we can examine the per-student random effects.
+As before, we can examine the per-student random effects. 
 
 ```{r random_effects}
 ranef(gpa_mixed)$student
@@ -48,11 +48,11 @@ coef(gpa_mixed)$student
 
 ## Comparison to Many Regressions
 
-The following code calculates regression models for each student (i.e. six observations apiece). Density plots are shown comparing
+The following code calculates regression models for each student (i.e. six observations apiece). Density plots are shown comparing regressions run for each student and the mixed model.
 
 ```{r by_group}
 gpa_lm_by_group0 = lmList(gpa ~ occasion | student, gpa)
-gpa_lm_by_group = coef(gpa_lm_by_group0)
+gpa_lm_by_group  = coef(gpa_lm_by_group0)
 
 gint = 
   data_frame(Mixed=coef(gpa_mixed)$student[,1], Separate=gpa_lm_by_group[,1]) %>% 
@@ -94,13 +94,12 @@ gslopes =
 
 library(patchwork)
 gint + gslopes
-
 ```
 
 ## Visualization of Effects
 
 
-First we can look at the mixed effects results.
+Let's look at what the results are in terms of prediction. First we can look at the mixed effects results.
 
 ```{r visualize_mixed_fit}
 # add if you want, not displayed as there are only a couple negative slopes
@@ -119,7 +118,7 @@ gpa %>%
         panel.grid.major.x = element_blank())
 ```
 
-Now we can see the messier 'by-group' approach.  General trends are ignored, and many more are predicted with downward trends when they probably shouldn't be.
+With that in mind, now we can see the messier 'by-group' approach.  The general trend is ignored, and many more students are predicted with downward trends when they probably shouldn't be.
 
 ```{r visualize_by_group_fit}
 going_down = factor(rep(gpa_lm_by_group[,'occasion']<0, e=6), labels=c('Upward', 'Downward'))

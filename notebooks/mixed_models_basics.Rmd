@@ -15,6 +15,8 @@ knitr::opts_chunk$set(echo = T, message=F, warning=F, comment=NA, autodep=F,
 
 ## Example: Student GPA
 
+Load up and inspect the data.
+
 ```{r basic_packages}
 library(tidyverse)
 ```
@@ -29,7 +31,7 @@ gpa
 
 ### Standard Regression
 
-A standard linear regression model. We have coefficients for the intercept and the effect of time, and in addition, the variance of the observations (residual standard error).
+We'll start with a standard linear regression model. We have coefficients for the intercept and the effect of time, and in addition, the variance of the observations (residual standard error).
 
 ```{r gpa_lm}
 gpa_lm = lm(gpa ~ occasion, data=gpa)
@@ -47,7 +49,7 @@ summary(gpa_mixed)
 [As a test, replace `1|student` with `1|sample(1:10, 1200, replace = T)`.  As your variance due to arbitrary grouping is essentially 0, the residual error estimate is similar to the `lm` model.]
 
 
-People always ask where the p-values are, but the answer is... complicated.  You can get interval estimates easily enough, even though they are poorly named for the variance components.
+People always ask where the p-values are, but the answer is... complicated.  Other packages and programs present them as if they are trivially obtained, but that is not the case, and the `lme4` developers would rather not make unnecessary assumptions.  On the plus side, you can get interval estimates easily enough, even though they are poorly named for the variance components. `sigma01` is the student variance.
 
 ```{r gpa_mixed_confint}
 confint(gpa_mixed)
@@ -55,7 +57,7 @@ confint(gpa_mixed)
 
 #### Estimated Random Effects
 
-Examine the random effects.
+Now examine the random effects.
 
 ```{r gpa_mixed_ranef}
 ranef(gpa_mixed)$student 
@@ -65,7 +67,7 @@ ranef(gpa_mixed)$student
 coef(gpa_mixed)$student 
 ```
 
-As we didn't allow the occasion effect to vary, it is constant.
+As we didn't allow the occasion effect to vary, it is constant.  We'll change this later.
 
 #### Prediction
 
