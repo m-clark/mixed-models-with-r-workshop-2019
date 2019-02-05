@@ -78,3 +78,95 @@ predict(gpa_mixed, re.form=NA) %>% head
 ## Adding a Cluster-level Covariate
 
 See exercises.
+
+
+
+## Exercises
+
+
+### Sleep
+
+For this exercise, we'll use the sleep study data from the <span class="pack">lme4</span> package.  The following describes it.
+
+> The average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time (in milliseconds) on a series of tests given each day to each subject.
+
+After loading the package, the data can be loaded as follows.  I show the first few observations.
+
+```{r sleepstudy}
+library(lme4)
+data("sleepstudy")
+head(sleepstudy)
+```
+
+1. Run a regression with Reaction as the target variable and Days as the predictor. 
+
+2. Run a mixed model with a random intercept for Subject.
+
+3. Interpret the variance components and fixed effects.
+
+4. What would a plot of the prediction lines per student look like relative to the overall trend?
+
+
+
+### Cluster level covariate
+
+Rerun the mixed model with the [GPA data][Mixed model] adding the cluster level covariate of `sex`, or high school GPA (`highgpa`), or both.  Interpret all aspects of the results.
+
+```{r gpa_cluster}
+gpa_mixed_cluster_level = lmer(?, gpa)
+
+summary(gpa_mixed_cluster_level)
+```
+
+What happened to the student variance after adding cluster level covariates to the model?
+
+
+
+### Simulation
+
+The following represents a simple way to simulate a random intercepts model.  Note each object what each object is, and make sure the code make sense to you.  Then run it.
+
+```{r simMixed, eval=FALSE}
+set.seed(1234)  # this will allow you to exactly duplicate your result
+Ngroups = 100
+NperGroup = 3
+N = Ngroups*NperGroup
+groups = factor(rep(1:Ngroups, each=NperGroup))
+u = rnorm(Ngroups, sd=.5)
+e = rnorm(N, sd=.25)
+x = rnorm(N)
+y = 2 + .5*x + u[groups] + e
+
+d = data.frame(x, y, groups)
+```
+
+Which of the above represent the fixed and random effects? Now run the following.
+
+```{r simMixed2}
+model = lmer(y ~ x + (1|groups), data=d)
+summary(model)
+confint(model)
+
+
+
+library(ggplot2)
+ggplot(aes(x, y), data=d) +
+  geom_point()
+```
+
+Do the results seem in keeping with what you expect?
+
+In what follows we'll change various aspects of the data, then rerun the model after each change, then summarize and get confidence intervals as before.  For each note specifically at least one thing that changed in the results.
+
+0. First calculate or simply eyeball the intraclass correlation coefficient $\frac{\textrm{random effect variance}}{\textrm{residual + random effect variance}}$.  In addition, create a density plot of the random effects as follows.
+
+```{r simMixed3, eval=FALSE}
+re = ranef(model)$groups
+qplot(x=re, geom='density', xlim=c(-3,3))
+```
+
+1. Change the random effect variance/sd and/or the residual variance/sd and note your new estimate of the ICC, and plot the random effect as before.
+
+2. Reset the values to the original.  Change <span class="objclass">Ngroups</span> to 50. What differences do you see in the confidence interval estimates? 
+
+3. Set the Ngroups back to 100. Now change <span class="objclass">NperGroup</span> to 10, and note again the how the CI is different from the base condition.
