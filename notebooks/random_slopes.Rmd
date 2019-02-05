@@ -137,4 +137,3 @@ gpa %>%
         panel.grid.major.x = element_blank())
 ```
 
-
