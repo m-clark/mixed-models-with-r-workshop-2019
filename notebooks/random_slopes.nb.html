@@ -1766,14 +1766,11 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBpZiBuZWVkZWRcbmxpYnJhcnkodGlkeXZlcnNlKVxubGlicmFyeShsbWU0KVxuXG5sb2FkKCdkYXRhL2dwYS5SRGF0YScpXG5cbmdwYV9sbSA9IGxtKGdwYSB+IG9jY2FzaW9uLCBkYXRhPWdwYSlcbmBgYCJ9 -->
-<pre class="r"><code># if needed
-library(tidyverse)
-library(lme4)
-
-load(&#39;data/gpa.RData&#39;)
-
-gpa_lm = lm(gpa ~ occasion, data=gpa)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBpZiBuZWVkZWRcbmxpYnJhcnkodGlkeXZlcnNlKVxubGlicmFyeShsbWU0KVxuXG5sb2FkKCdkYXRhL2dwYS5SRGF0YScpXG5cbmdwYV9sbSA9IGxtKGdwYSB+IG9jY2FzaW9uLCBkYXRhPWdwYSlcbmBgYFxuYGBgIn0= -->
+<p><code>r</code>r # if needed library(tidyverse) library(lme4)</p>
+<p>load(‘data/gpa.RData’)</p>
+<p>gpa_lm = lm(gpa ~ occasion, data=gpa)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1782,9 +1779,9 @@ gpa_lm = lm(gpa ~ occasion, data=gpa)</code></pre>
 <p>Add a random slope to our previous example and examine the results.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ3BhX21peGVkID0gIGxtZXIoZ3BhIH4gb2NjYXNpb24gKyAoMSArIG9jY2FzaW9ufHN0dWRlbnQpLCBkYXRhPWdwYSlcbnN1bW1hcnkoZ3BhX21peGVkKVxuYGBgIn0= -->
-<pre class="r"><code>gpa_mixed =  lmer(gpa ~ occasion + (1 + occasion|student), data=gpa)
-summary(gpa_mixed)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZ3BhX21peGVkID0gIGxtZXIoZ3BhIH4gb2NjYXNpb24gKyAoMSArIG9jY2FzaW9ufHN0dWRlbnQpLCBkYXRhPWdwYSlcbnN1bW1hcnkoZ3BhX21peGVkKVxuYGBgXG5gYGAifQ== -->
+<p><code>r</code>r gpa_mixed = lmer(gpa ~ occasion + (1 + occasion|student), data=gpa) summary(gpa_mixed)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1793,16 +1790,18 @@ summary(gpa_mixed)</code></pre>
 <p>As before, we can examine the per-student random effects.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxucmFuZWYoZ3BhX21peGVkKSRzdHVkZW50XG5gYGAifQ== -->
-<pre class="r"><code>ranef(gpa_mixed)$student</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxucmFuZWYoZ3BhX21peGVkKSRzdHVkZW50XG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r ranef(gpa_mixed)$student</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Unlike before, we see each student’s occasion effect.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29lZihncGFfbWl4ZWQpJHN0dWRlbnRcbmBgYCJ9 -->
-<pre class="r"><code>coef(gpa_mixed)$student</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuY29lZihncGFfbWl4ZWQpJHN0dWRlbnRcbmBgYFxuYGBgIn0= -->
+<p><code>r</code>r coef(gpa_mixed)$student</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1813,50 +1812,12 @@ summary(gpa_mixed)</code></pre>
 <p>The following code calculates regression models for each student (i.e. six observations apiece). Density plots are shown comparing regressions run for each student and the mixed model.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ3BhX2xtX2J5X2dyb3VwMCA9IGxtTGlzdChncGEgfiBvY2Nhc2lvbiB8IHN0dWRlbnQsIGdwYSlcbmdwYV9sbV9ieV9ncm91cCAgPSBjb2VmKGdwYV9sbV9ieV9ncm91cDApXG5cbmdpbnQgPSBcbiAgZGF0YV9mcmFtZShNaXhlZD1jb2VmKGdwYV9taXhlZCkkc3R1ZGVudFssMV0sIFNlcGFyYXRlPWdwYV9sbV9ieV9ncm91cFssMV0pICU+JSBcbiAgZ2F0aGVyKGtleT1Nb2RlbCwgdmFsdWU9SW50ZXJjZXB0KSAlPiUgXG4gIGdncGxvdChhZXMoeD1JbnRlcmNlcHQpKSArXG4gIGdlb21fZGVuc2l0eShhZXMoY29sb3I9TW9kZWwsIGZpbGw9TW9kZWwpLCBhbHBoYT0uMjUpICtcbiAgc2NhbGVfY29sb3JfdmlyaWRpc19kKGJlZ2luID0gLjI1LCBlbmQgPSAuNzUpICtcbiAgc2NhbGVfZmlsbF92aXJpZGlzX2QoYmVnaW4gPSAuMjUsIGVuZCA9IC43NSkgK1xuICBnZ3RpdGxlKCdJbnRlcmNlcHRzJykgK1xuICBsYWJzKHg9JycsIHk9JycpICtcbiAgeGxpbShjKDEuNSw0KSkgK1xuICB0aGVtZV9taW5pbWFsKCkgK1xuICB0aGVtZShcbiAgICBheGlzLnRleHQueSA9IGVsZW1lbnRfYmxhbmsoKSxcbiAgICBheGlzLnRpY2tzLnkgPSBlbGVtZW50X2JsYW5rKCksXG4gICAgbGVnZW5kLmtleS5zaXplPXVuaXQoMiwgJ21tJyksXG4gICAgbGVnZW5kLnRpdGxlPWVsZW1lbnRfdGV4dChzaXplPTgpLFxuICAgIGxlZ2VuZC50ZXh0PWVsZW1lbnRfdGV4dChzaXplPTgpLFxuICAgIGxlZ2VuZC5ib3guc3BhY2luZz11bml0KDAsICdpbicpLFxuICAgIGxlZ2VuZC5wb3NpdGlvbj1jKC44NSwuNzUpXG4gICAgKVxuXG5nc2xvcGVzID0gXG4gIGRhdGFfZnJhbWUoTWl4ZWQ9Y29lZihncGFfbWl4ZWQpJHN0dWRlbnRbLDJdLCBTZXBhcmF0ZT1ncGFfbG1fYnlfZ3JvdXBbLDJdKSAlPiUgXG4gIGdhdGhlcihrZXk9TW9kZWwsIHZhbHVlPU9jY2FzaW9uKSAlPiUgXG4gIGdncGxvdChhZXMoeD1PY2Nhc2lvbikpICtcbiAgZ2VvbV9kZW5zaXR5KGFlcyhjb2xvcj1Nb2RlbCwgZmlsbD1Nb2RlbCksIGFscGhhPS4yNSwgc2hvdy5sZWdlbmQ9RikgK1xuICBzY2FsZV9jb2xvcl92aXJpZGlzX2QoYmVnaW4gPSAuMjUsIGVuZCA9IC43NSkgK1xuICBzY2FsZV9maWxsX3ZpcmlkaXNfZChiZWdpbiA9IC4yNSwgZW5kID0gLjc1KSArXG4gIGdndGl0bGUoJ1Nsb3BlcyBmb3Igb2NjYXNpb24nKSArXG4gIGxhYnMoeD0nJywgeT0nJykgK1xuICB4bGltKGMoLS4yLC40KSkgK1xuICB0aGVtZV9taW5pbWFsKCkgK1xuICB0aGVtZShcbiAgICBheGlzLnRleHQueSA9IGVsZW1lbnRfYmxhbmsoKSxcbiAgICBheGlzLnRpY2tzLnkgPSBlbGVtZW50X2JsYW5rKClcbiAgKVxuXG5cbmxpYnJhcnkocGF0Y2h3b3JrKVxuZ2ludCArIGdzbG9wZXNcbmBgYCJ9 -->
-<pre class="r"><code>gpa_lm_by_group0 = lmList(gpa ~ occasion | student, gpa)
-gpa_lm_by_group  = coef(gpa_lm_by_group0)
-
-gint = 
-  data_frame(Mixed=coef(gpa_mixed)$student[,1], Separate=gpa_lm_by_group[,1]) %&gt;% 
-  gather(key=Model, value=Intercept) %&gt;% 
-  ggplot(aes(x=Intercept)) +
-  geom_density(aes(color=Model, fill=Model), alpha=.25) +
-  scale_color_viridis_d(begin = .25, end = .75) +
-  scale_fill_viridis_d(begin = .25, end = .75) +
-  ggtitle(&#39;Intercepts&#39;) +
-  labs(x=&#39;&#39;, y=&#39;&#39;) +
-  xlim(c(1.5,4)) +
-  theme_minimal() +
-  theme(
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank(),
-    legend.key.size=unit(2, &#39;mm&#39;),
-    legend.title=element_text(size=8),
-    legend.text=element_text(size=8),
-    legend.box.spacing=unit(0, &#39;in&#39;),
-    legend.position=c(.85,.75)
-    )
-
-gslopes = 
-  data_frame(Mixed=coef(gpa_mixed)$student[,2], Separate=gpa_lm_by_group[,2]) %&gt;% 
-  gather(key=Model, value=Occasion) %&gt;% 
-  ggplot(aes(x=Occasion)) +
-  geom_density(aes(color=Model, fill=Model), alpha=.25, show.legend=F) +
-  scale_color_viridis_d(begin = .25, end = .75) +
-  scale_fill_viridis_d(begin = .25, end = .75) +
-  ggtitle(&#39;Slopes for occasion&#39;) +
-  labs(x=&#39;&#39;, y=&#39;&#39;) +
-  xlim(c(-.2,.4)) +
-  theme_minimal() +
-  theme(
-    axis.text.y = element_blank(),
-    axis.ticks.y = element_blank()
-  )
-
-
-library(patchwork)
-gint + gslopes</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZ3BhX2xtX2J5X2dyb3VwMCA9IGxtTGlzdChncGEgfiBvY2Nhc2lvbiB8IHN0dWRlbnQsIGdwYSlcbmdwYV9sbV9ieV9ncm91cCAgPSBjb2VmKGdwYV9sbV9ieV9ncm91cDApXG5cbmdpbnQgPSBcbiAgZGF0YV9mcmFtZShNaXhlZD1jb2VmKGdwYV9taXhlZCkkc3R1ZGVudFssMV0sIFNlcGFyYXRlPWdwYV9sbV9ieV9ncm91cFssMV0pICU+JSBcbiAgZ2F0aGVyKGtleT1Nb2RlbCwgdmFsdWU9SW50ZXJjZXB0KSAlPiUgXG4gIGdncGxvdChhZXMoeD1JbnRlcmNlcHQpKSArXG4gIGdlb21fZGVuc2l0eShhZXMoY29sb3I9TW9kZWwsIGZpbGw9TW9kZWwpLCBhbHBoYT0uMjUpICtcbiAgc2NhbGVfY29sb3JfdmlyaWRpc19kKGJlZ2luID0gLjI1LCBlbmQgPSAuNzUpICtcbiAgc2NhbGVfZmlsbF92aXJpZGlzX2QoYmVnaW4gPSAuMjUsIGVuZCA9IC43NSkgK1xuICBnZ3RpdGxlKCdJbnRlcmNlcHRzJykgK1xuICBsYWJzKHg9JycsIHk9JycpICtcbiAgeGxpbShjKDEuNSw0KSkgK1xuICB0aGVtZV9taW5pbWFsKCkgK1xuICB0aGVtZShcbiAgICBheGlzLnRleHQueSA9IGVsZW1lbnRfYmxhbmsoKSxcbiAgICBheGlzLnRpY2tzLnkgPSBlbGVtZW50X2JsYW5rKCksXG4gICAgbGVnZW5kLmtleS5zaXplPXVuaXQoMiwgJ21tJyksXG4gICAgbGVnZW5kLnRpdGxlPWVsZW1lbnRfdGV4dChzaXplPTgpLFxuICAgIGxlZ2VuZC50ZXh0PWVsZW1lbnRfdGV4dChzaXplPTgpLFxuICAgIGxlZ2VuZC5ib3guc3BhY2luZz11bml0KDAsICdpbicpLFxuICAgIGxlZ2VuZC5wb3NpdGlvbj1jKC44NSwuNzUpXG4gICAgKVxuXG5nc2xvcGVzID0gXG4gIGRhdGFfZnJhbWUoTWl4ZWQ9Y29lZihncGFfbWl4ZWQpJHN0dWRlbnRbLDJdLCBTZXBhcmF0ZT1ncGFfbG1fYnlfZ3JvdXBbLDJdKSAlPiUgXG4gIGdhdGhlcihrZXk9TW9kZWwsIHZhbHVlPU9jY2FzaW9uKSAlPiUgXG4gIGdncGxvdChhZXMoeD1PY2Nhc2lvbikpICtcbiAgZ2VvbV9kZW5zaXR5KGFlcyhjb2xvcj1Nb2RlbCwgZmlsbD1Nb2RlbCksIGFscGhhPS4yNSwgc2hvdy5sZWdlbmQ9RikgK1xuICBzY2FsZV9jb2xvcl92aXJpZGlzX2QoYmVnaW4gPSAuMjUsIGVuZCA9IC43NSkgK1xuICBzY2FsZV9maWxsX3ZpcmlkaXNfZChiZWdpbiA9IC4yNSwgZW5kID0gLjc1KSArXG4gIGdndGl0bGUoJ1Nsb3BlcyBmb3Igb2NjYXNpb24nKSArXG4gIGxhYnMoeD0nJywgeT0nJykgK1xuICB4bGltKGMoLS4yLC40KSkgK1xuICB0aGVtZV9taW5pbWFsKCkgK1xuICB0aGVtZShcbiAgICBheGlzLnRleHQueSA9IGVsZW1lbnRfYmxhbmsoKSxcbiAgICBheGlzLnRpY2tzLnkgPSBlbGVtZW50X2JsYW5rKClcbiAgKVxuXG5cbmxpYnJhcnkocGF0Y2h3b3JrKVxuZ2ludCArIGdzbG9wZXNcbmBgYFxuYGBgIn0= -->
+<p><code>r</code>r gpa_lm_by_group0 = lmList(gpa ~ occasion | student, gpa) gpa_lm_by_group = coef(gpa_lm_by_group0)</p>
+<p>gint = data_frame(Mixed=coef(gpa_mixed)$student[,1], Separate=gpa_lm_by_group[,1]) %&gt;% gather(key=Model, value=Intercept) %&gt;% ggplot(aes(x=Intercept)) + geom_density(aes(color=Model, fill=Model), alpha=.25) + scale_color_viridis_d(begin = .25, end = .75) + scale_fill_viridis_d(begin = .25, end = .75) + ggtitle(‘Intercepts’) + labs(x=’‘, y=’‘) + xlim(c(1.5,4)) + theme_minimal() + theme( axis.text.y = element_blank(), axis.ticks.y = element_blank(), legend.key.size=unit(2, ’mm’), legend.title=element_text(size=8), legend.text=element_text(size=8), legend.box.spacing=unit(0, ‘in’), legend.position=c(.85,.75) )</p>
+<p>gslopes = data_frame(Mixed=coef(gpa_mixed)$student[,2], Separate=gpa_lm_by_group[,2]) %&gt;% gather(key=Model, value=Occasion) %&gt;% ggplot(aes(x=Occasion)) + geom_density(aes(color=Model, fill=Model), alpha=.25, show.legend=F) + scale_color_viridis_d(begin = .25, end = .75) + scale_fill_viridis_d(begin = .25, end = .75) + ggtitle(‘Slopes for occasion’) + labs(x=’‘, y=’’) + xlim(c(-.2,.4)) + theme_minimal() + theme( axis.text.y = element_blank(), axis.ticks.y = element_blank() )</p>
+<p>library(patchwork) gint + gslopes</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
@@ -1866,49 +1827,95 @@ gint + gslopes</code></pre>
 <p>Let’s look at what the results are in terms of prediction. First we can look at the mixed effects results.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuIyBhZGQgaWYgeW91IHdhbnQsIG5vdCBkaXNwbGF5ZWQgYXMgdGhlcmUgYXJlIG9ubHkgYSBjb3VwbGUgbmVnYXRpdmUgc2xvcGVzXG5nb2luZ19kb3duID0gZmFjdG9yKHJlcChjb2VmKGdwYV9taXhlZCkkc3R1ZGVudFssJ29jY2FzaW9uJ108MCwgZT02KSwgbGFiZWxzPWMoJ1VwJywgJ0Rvd24nKSlcblxubGlicmFyeShtb2RlbHIpICMgYWxsb3dzIHVzIHRvIGFkZCBwcmVkaWN0aW9ucyB0byB0aGUgZGF0YSBmcmFtZVxuZ3BhICU+JSBcbiAgYWRkX3ByZWRpY3Rpb25zKGdwYV9sbSwgdmFyPSdsbScpICU+JSBcbiAgYWRkX3ByZWRpY3Rpb25zKGdwYV9taXhlZCwgdmFyPSdtaXhlZCcpICU+JSBcbiAgZ2dwbG90KCkgKyBcbiAgZ2VvbV9saW5lKGFlcyh4PW9jY2FzaW9uLCB5PW1peGVkLCBncm91cD1zdHVkZW50KSwgYWxwaGE9LjEsIGNvbG9yPScjMDBhYWZmJykgK1xuICBnZW9tX2xpbmUoYWVzKHg9b2NjYXNpb24sIHk9bG0sIGdyb3VwPXN0dWRlbnQpLCBjb2xvcj0nI2ZmNTUwMCcpICtcbiAgbGFicyh5PSdncGEnKSArIFxuICB0aGVtZV9taW5pbWFsKCkgK1xuICB0aGVtZShwYW5lbC5ncmlkLm1pbm9yID0gZWxlbWVudF9ibGFuaygpLFxuICAgICAgICBwYW5lbC5ncmlkLm1ham9yLnggPSBlbGVtZW50X2JsYW5rKCkpXG5gYGAifQ== -->
-<pre class="r"><code># add if you want, not displayed as there are only a couple negative slopes
-going_down = factor(rep(coef(gpa_mixed)$student[,&#39;occasion&#39;]&lt;0, e=6), labels=c(&#39;Up&#39;, &#39;Down&#39;))
-
-library(modelr) # allows us to add predictions to the data frame
-gpa %&gt;% 
-  add_predictions(gpa_lm, var=&#39;lm&#39;) %&gt;% 
-  add_predictions(gpa_mixed, var=&#39;mixed&#39;) %&gt;% 
-  ggplot() + 
-  geom_line(aes(x=occasion, y=mixed, group=student), alpha=.1, color=&#39;#00aaff&#39;) +
-  geom_line(aes(x=occasion, y=lm, group=student), color=&#39;#ff5500&#39;) +
-  labs(y=&#39;gpa&#39;) + 
-  theme_minimal() +
-  theme(panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank())</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuIyBhZGQgaWYgeW91IHdhbnQsIG5vdCBkaXNwbGF5ZWQgYXMgdGhlcmUgYXJlIG9ubHkgYSBjb3VwbGUgbmVnYXRpdmUgc2xvcGVzXG5nb2luZ19kb3duID0gZmFjdG9yKHJlcChjb2VmKGdwYV9taXhlZCkkc3R1ZGVudFssJ29jY2FzaW9uJ108MCwgZT02KSwgbGFiZWxzPWMoJ1VwJywgJ0Rvd24nKSlcblxubGlicmFyeShtb2RlbHIpICMgYWxsb3dzIHVzIHRvIGFkZCBwcmVkaWN0aW9ucyB0byB0aGUgZGF0YSBmcmFtZVxuZ3BhICU+JSBcbiAgYWRkX3ByZWRpY3Rpb25zKGdwYV9sbSwgdmFyPSdsbScpICU+JSBcbiAgYWRkX3ByZWRpY3Rpb25zKGdwYV9taXhlZCwgdmFyPSdtaXhlZCcpICU+JSBcbiAgZ2dwbG90KCkgKyBcbiAgZ2VvbV9saW5lKGFlcyh4PW9jY2FzaW9uLCB5PW1peGVkLCBncm91cD1zdHVkZW50KSwgYWxwaGE9LjEsIGNvbG9yPScjMDBhYWZmJykgK1xuICBnZW9tX2xpbmUoYWVzKHg9b2NjYXNpb24sIHk9bG0sIGdyb3VwPXN0dWRlbnQpLCBjb2xvcj0nI2ZmNTUwMCcpICtcbiAgbGFicyh5PSdncGEnKSArIFxuICB0aGVtZV9taW5pbWFsKCkgK1xuICB0aGVtZShwYW5lbC5ncmlkLm1pbm9yID0gZWxlbWVudF9ibGFuaygpLFxuICAgICAgICBwYW5lbC5ncmlkLm1ham9yLnggPSBlbGVtZW50X2JsYW5rKCkpXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r # add if you want, not displayed as there are only a couple negative slopes going_down = factor(rep(coef(gpa_mixed)$student[,‘occasion’]&lt;0, e=6), labels=c(‘Up’, ‘Down’))</p>
+<p>library(modelr) # allows us to add predictions to the data frame gpa %&gt;% add_predictions(gpa_lm, var=‘lm’) %&gt;% add_predictions(gpa_mixed, var=‘mixed’) %&gt;% ggplot() + geom_line(aes(x=occasion, y=mixed, group=student), alpha=.1, color=‘#00aaff’) + geom_line(aes(x=occasion, y=lm, group=student), color=‘#ff5500’) + labs(y=‘gpa’) + theme_minimal() + theme(panel.grid.minor = element_blank(), panel.grid.major.x = element_blank())</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>With that in mind, now we can see the messier ‘by-group’ approach. The general trend is ignored, and many more students are predicted with downward trends when they probably shouldn’t be.</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ29pbmdfZG93biA9IGZhY3RvcihyZXAoZ3BhX2xtX2J5X2dyb3VwWywnb2NjYXNpb24nXTwwLCBlPTYpLCBsYWJlbHM9YygnVXB3YXJkJywgJ0Rvd253YXJkJykpXG5cbmdwYSAlPiUgXG4gIG11dGF0ZShzdHVmaXQ9Zml0dGVkKGdwYV9sbV9ieV9ncm91cDApKSAlPiUgXG4gIGFkZF9wcmVkaWN0aW9ucyhncGFfbG0sIHZhcj0nZ3BhJykgJT4lIFxuICBhZGRfcHJlZGljdGlvbnMoZ3BhX2xtLCB2YXI9J2xtJykgJT4lIFxuICBnZ3Bsb3QoKSArXG4gIGdlb21fbGluZShhZXMoeD1vY2Nhc2lvbiwgeT1zdHVmaXQsIGdyb3VwPXN0dWRlbnQsIGNvbG9yPWdvaW5nX2Rvd24sIGFscGhhID0gZ29pbmdfZG93bikpICtcbiAgZ2VvbV9saW5lKGFlcyh4PW9jY2FzaW9uLCB5PWxtKSwgXG4gICAgICAgICAgICBjb2xvcj0nI2ZmNTUwMCcpICtcbiAgbGFicyh5PSdncGEnKSArIFxuICB0aGVtZV9taW5pbWFsKCkgK1xuICB0aGVtZShwYW5lbC5ncmlkLm1pbm9yID0gZWxlbWVudF9ibGFuaygpLFxuICAgICAgICBwYW5lbC5ncmlkLm1ham9yLnggPSBlbGVtZW50X2JsYW5rKCkpXG5gYGAifQ== -->
-<pre class="r"><code>going_down = factor(rep(gpa_lm_by_group[,&#39;occasion&#39;]&lt;0, e=6), labels=c(&#39;Upward&#39;, &#39;Downward&#39;))
-
-gpa %&gt;% 
-  mutate(stufit=fitted(gpa_lm_by_group0)) %&gt;% 
-  add_predictions(gpa_lm, var=&#39;gpa&#39;) %&gt;% 
-  add_predictions(gpa_lm, var=&#39;lm&#39;) %&gt;% 
-  ggplot() +
-  geom_line(aes(x=occasion, y=stufit, group=student, color=going_down, alpha = going_down)) +
-  geom_line(aes(x=occasion, y=lm), 
-            color=&#39;#ff5500&#39;) +
-  labs(y=&#39;gpa&#39;) + 
-  theme_minimal() +
-  theme(panel.grid.minor = element_blank(),
-        panel.grid.major.x = element_blank())</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuZ29pbmdfZG93biA9IGZhY3RvcihyZXAoZ3BhX2xtX2J5X2dyb3VwWywnb2NjYXNpb24nXTwwLCBlPTYpLCBsYWJlbHM9YygnVXB3YXJkJywgJ0Rvd253YXJkJykpXG5cbmdwYSAlPiUgXG4gIG11dGF0ZShzdHVmaXQ9Zml0dGVkKGdwYV9sbV9ieV9ncm91cDApKSAlPiUgXG4gIGFkZF9wcmVkaWN0aW9ucyhncGFfbG0sIHZhcj0nZ3BhJykgJT4lIFxuICBhZGRfcHJlZGljdGlvbnMoZ3BhX2xtLCB2YXI9J2xtJykgJT4lIFxuICBnZ3Bsb3QoKSArXG4gIGdlb21fbGluZShhZXMoeD1vY2Nhc2lvbiwgeT1zdHVmaXQsIGdyb3VwPXN0dWRlbnQsIGNvbG9yPWdvaW5nX2Rvd24sIGFscGhhID0gZ29pbmdfZG93bikpICtcbiAgZ2VvbV9saW5lKGFlcyh4PW9jY2FzaW9uLCB5PWxtKSwgXG4gICAgICAgICAgICBjb2xvcj0nI2ZmNTUwMCcpICtcbiAgbGFicyh5PSdncGEnKSArIFxuICB0aGVtZV9taW5pbWFsKCkgK1xuICB0aGVtZShwYW5lbC5ncmlkLm1pbm9yID0gZWxlbWVudF9ibGFuaygpLFxuICAgICAgICBwYW5lbC5ncmlkLm1ham9yLnggPSBlbGVtZW50X2JsYW5rKCkpXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r going_down = factor(rep(gpa_lm_by_group[,‘occasion’]&lt;0, e=6), labels=c(‘Upward’, ‘Downward’))</p>
+<p>gpa %&gt;% mutate(stufit=fitted(gpa_lm_by_group0)) %&gt;% add_predictions(gpa_lm, var=‘gpa’) %&gt;% add_predictions(gpa_lm, var=‘lm’) %&gt;% ggplot() + geom_line(aes(x=occasion, y=stufit, group=student, color=going_down, alpha = going_down)) + geom_line(aes(x=occasion, y=lm), color=‘#ff5500’) + labs(y=‘gpa’) + theme_minimal() + theme(panel.grid.minor = element_blank(), panel.grid.major.x = element_blank())</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+</div>
+<div id="exercises" class="section level2">
+<h2>Exercises</h2>
+<div id="sleep-revisited" class="section level4">
+<h4>Sleep revisited</h4>
+<p>Run the sleep study model with random coefficient for the Days effect, and interpret the results. What is the correlation between the intercept and Days random effects? Use the <code>ranef</code> and <code>coef</code> functions on the model you’ve created to inspect the individual specific effects. What do you see?</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShsbWU0KVxuZGF0YShcInNsZWVwc3R1ZHlcIilcblxubW9kZWwgPSBsbWVyKD8sIGRhdGEgPSBzbGVlcHN0dWR5KVxuXG5zdW1tYXJ5KG1vZGVsKVxuYGBgIn0= -->
+<pre class="r"><code>library(lme4)
+data(&quot;sleepstudy&quot;)
+
+model = lmer(?, data = sleepstudy)
+
+summary(model)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>In the following, run each line, inspecting the result of each as you go along.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbInJlID0gcmFuZWYobW9kZWwpJFN1YmplY3QiLCJmZSA9IGZpeGVmKG1vZGVsKSIsImFwcGx5KHJlLCAxLCBmdW5jdGlvbih4KSB4ICsgZmUpICU+JSB0Il19 -->
+<pre class="r"><code>re = ranef(model)$Subject
+fe = fixef(model)
+apply(re, 1, function(x) x + fe) %&gt;% t</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>The above code adds the fixed effects to each row of the random effects (the <code>t</code> just transposes the result). What is the result compared to what you saw before?</p>
+</div>
+<div id="simulation-revisited" class="section level4">
+<h4>Simulation revisited</h4>
+<p>The following shows a simplified way to simulate some random slopes, but otherwise is the same as the simulation before. Go ahead and run the code.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2V0LnNlZWQoMTIzNCkgICMgdGhpcyB3aWxsIGFsbG93IHlvdSB0byBleGFjdGx5IGR1cGxpY2F0ZSB5b3VyIHJlc3VsdFxuTmdyb3VwcyA9IDUwXG5OcGVyR3JvdXAgPSAzXG5OID0gTmdyb3VwcyAqIE5wZXJHcm91cFxuZ3JvdXBzID0gZmFjdG9yKHJlcCgxOk5ncm91cHMsIGVhY2ggPSBOcGVyR3JvdXApKVxucmVfaW50ID0gcm5vcm0oTmdyb3Vwcywgc2QgPSAuNzUpXG5yZV9zbG9wZSA9IHJub3JtKE5ncm91cHMsIHNkID0gLjI1KVxuZSA9IHJub3JtKE4sIHNkID0gLjI1KVxueCA9IHJub3JtKE4pXG55ID0gKDIgKyByZV9pbnRbZ3JvdXBzXSkgKyAoLjUgKyByZV9zbG9wZVtncm91cHNdKSAqIHggKyBlXG5cbmQgPSBkYXRhLmZyYW1lKHgsIHksIGdyb3VwcylcbmBgYCJ9 -->
+<pre class="r"><code>set.seed(1234)  # this will allow you to exactly duplicate your result
+Ngroups = 50
+NperGroup = 3
+N = Ngroups * NperGroup
+groups = factor(rep(1:Ngroups, each = NperGroup))
+re_int = rnorm(Ngroups, sd = .75)
+re_slope = rnorm(Ngroups, sd = .25)
+e = rnorm(N, sd = .25)
+x = rnorm(N)
+y = (2 + re_int[groups]) + (.5 + re_slope[groups]) * x + e
+
+d = data.frame(x, y, groups)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>This next bit of code shows a way to run a mixed model while specifying that there is no correlation between intercepts and slopes. There is generally no reason to do this unless the study design warrants it, but you could do it as a step in the model-building process, such that you fit a model with no correlation, then one with it.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjpbIm1vZGVsX2ludHNfb25seSA9IGxtZXIoeSB+IHggKyAoMSB8IGdyb3VwcyksIGRhdGEgPSBkKSIsIm1vZGVsX3dpdGhfc2xvcGVzID0gbG1lcih5IH4geCArICgxIHwgZ3JvdXBzKSArICgwICsgeCB8IGdyb3VwcyksIGRhdGEgPSBkKSIsInN1bW1hcnkobW9kZWxfd2l0aF9zbG9wZXMpIiwiY29uZmludChtb2RlbF93aXRoX3Nsb3BlcykiLCIiLCJsaWJyYXJ5KGdncGxvdDIpIiwiZ2dwbG90KGFlcyh4LCB5KSwgZGF0YT1kKSArIiwiICBnZW9tX3BvaW50KCkiXX0= -->
+<pre class="r"><code>model_ints_only = lmer(y ~ x + (1 | groups), data = d)
+model_with_slopes = lmer(y ~ x + (1 | groups) + (0 + x | groups), data = d)
+summary(model_with_slopes)
+confint(model_with_slopes)
+
+library(ggplot2)
+ggplot(aes(x, y), data=d) +
+  geom_point()</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>Compare model fit using the <code>AIC</code> function, e.g. <code>AIC(model)</code>. The model with the lower AIC is the better model, so which would you choose?</p>
 <!-- rnb-text-end -->
 </div>
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIk1vcmUgUmFuZG9tIEVmZmVjdHMiDQpvdXRwdXQ6IGh0bWxfbm90ZWJvb2sNCmVkaXRvcl9vcHRpb25zOiANCiAgY2h1bmtfb3V0cHV0X3R5cGU6IGlubGluZQ0KLS0tDQoNCg0KYGBge3IgY2h1bmtfc2V0dXAsIGluY2x1ZGU9RkFMU0UsIGV2YWw9VFJVRX0NCmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVCwgbWVzc2FnZT1GLCB3YXJuaW5nPUYsIGNvbW1lbnQ9TkEsIGF1dG9kZXA9RiwgDQogICAgICAgICAgICAgICAgICAgICAgZXZhbD1ULCBjYWNoZS5yZWJ1aWxkPUYsIGNhY2hlPVQsIFIub3B0aW9ucz1saXN0KHdpZHRoPTEyMCksIA0KICAgICAgICAgICAgICAgICAgICAgIGZpZy53aWR0aD04LCBmaWcuYWxpZ24gPSAnY2VudGVyJywgZGV2LmFyZ3M9bGlzdChiZyA9ICd0cmFuc3BhcmVudCcpLCBkZXY9J3N2Z2xpdGUnKQ0KYGBgDQoNCmBgYHtyIGNhdGNodXB9DQojIGlmIG5lZWRlZA0KbGlicmFyeSh0aWR5dmVyc2UpDQpsaWJyYXJ5KGxtZTQpDQoNCmxvYWQoJ2RhdGEvZ3BhLlJEYXRhJykNCg0KZ3BhX2xtID0gbG0oZ3BhIH4gb2NjYXNpb24sIGRhdGE9Z3BhKQ0KYGBgDQoNCiMjIEFwcGxpY2F0aW9uDQoNCkFkZCBhIHJhbmRvbSBzbG9wZSB0byBvdXIgcHJldmlvdXMgZXhhbXBsZSBhbmQgZXhhbWluZSB0aGUgcmVzdWx0cy4NCg0KYGBge3IgcmFuZG9tX3Nsb3BlfQ0KZ3BhX21peGVkID0gIGxtZXIoZ3BhIH4gb2NjYXNpb24gKyAoMSArIG9jY2FzaW9ufHN0dWRlbnQpLCBkYXRhPWdwYSkNCnN1bW1hcnkoZ3BhX21peGVkKQ0KYGBgDQoNCiMjIyBFeHBsb3JlIFJhbmRvbSBFZmZlY3RzDQoNCkFzIGJlZm9yZSwgd2UgY2FuIGV4YW1pbmUgdGhlIHBlci1zdHVkZW50IHJhbmRvbSBlZmZlY3RzLiANCg0KYGBge3IgcmFuZG9tX2VmZmVjdHN9DQpyYW5lZihncGFfbWl4ZWQpJHN0dWRlbnQNCmBgYA0KDQpVbmxpa2UgYmVmb3JlLCB3ZSBzZWUgZWFjaCBzdHVkZW50J3Mgb2NjYXNpb24gZWZmZWN0Lg0KDQpgYGB7ciByYW5kb21fY29lZmZpY2llbnRzfQ0KY29lZihncGFfbWl4ZWQpJHN0dWRlbnQNCmBgYA0KDQoNCiMjIENvbXBhcmlzb24gdG8gTWFueSBSZWdyZXNzaW9ucw0KDQpUaGUgZm9sbG93aW5nIGNvZGUgY2FsY3VsYXRlcyByZWdyZXNzaW9uIG1vZGVscyBmb3IgZWFjaCBzdHVkZW50IChpLmUuIHNpeCBvYnNlcnZhdGlvbnMgYXBpZWNlKS4gRGVuc2l0eSBwbG90cyBhcmUgc2hvd24gY29tcGFyaW5nIHJlZ3Jlc3Npb25zIHJ1biBmb3IgZWFjaCBzdHVkZW50IGFuZCB0aGUgbWl4ZWQgbW9kZWwuDQoNCmBgYHtyIGJ5X2dyb3VwfQ0KZ3BhX2xtX2J5X2dyb3VwMCA9IGxtTGlzdChncGEgfiBvY2Nhc2lvbiB8IHN0dWRlbnQsIGdwYSkNCmdwYV9sbV9ieV9ncm91cCAgPSBjb2VmKGdwYV9sbV9ieV9ncm91cDApDQoNCmdpbnQgPSANCiAgZGF0YV9mcmFtZShNaXhlZD1jb2VmKGdwYV9taXhlZCkkc3R1ZGVudFssMV0sIFNlcGFyYXRlPWdwYV9sbV9ieV9ncm91cFssMV0pICU+JSANCiAgZ2F0aGVyKGtleT1Nb2RlbCwgdmFsdWU9SW50ZXJjZXB0KSAlPiUgDQogIGdncGxvdChhZXMoeD1JbnRlcmNlcHQpKSArDQogIGdlb21fZGVuc2l0eShhZXMoY29sb3I9TW9kZWwsIGZpbGw9TW9kZWwpLCBhbHBoYT0uMjUpICsNCiAgc2NhbGVfY29sb3JfdmlyaWRpc19kKGJlZ2luID0gLjI1LCBlbmQgPSAuNzUpICsNCiAgc2NhbGVfZmlsbF92aXJpZGlzX2QoYmVnaW4gPSAuMjUsIGVuZCA9IC43NSkgKw0KICBnZ3RpdGxlKCdJbnRlcmNlcHRzJykgKw0KICBsYWJzKHg9JycsIHk9JycpICsNCiAgeGxpbShjKDEuNSw0KSkgKw0KICB0aGVtZV9taW5pbWFsKCkgKw0KICB0aGVtZSgNCiAgICBheGlzLnRleHQueSA9IGVsZW1lbnRfYmxhbmsoKSwNCiAgICBheGlzLnRpY2tzLnkgPSBlbGVtZW50X2JsYW5rKCksDQogICAgbGVnZW5kLmtleS5zaXplPXVuaXQoMiwgJ21tJyksDQogICAgbGVnZW5kLnRpdGxlPWVsZW1lbnRfdGV4dChzaXplPTgpLA0KICAgIGxlZ2VuZC50ZXh0PWVsZW1lbnRfdGV4dChzaXplPTgpLA0KICAgIGxlZ2VuZC5ib3guc3BhY2luZz11bml0KDAsICdpbicpLA0KICAgIGxlZ2VuZC5wb3NpdGlvbj1jKC44NSwuNzUpDQogICAgKQ0KDQpnc2xvcGVzID0gDQogIGRhdGFfZnJhbWUoTWl4ZWQ9Y29lZihncGFfbWl4ZWQpJHN0dWRlbnRbLDJdLCBTZXBhcmF0ZT1ncGFfbG1fYnlfZ3JvdXBbLDJdKSAlPiUgDQogIGdhdGhlcihrZXk9TW9kZWwsIHZhbHVlPU9jY2FzaW9uKSAlPiUgDQogIGdncGxvdChhZXMoeD1PY2Nhc2lvbikpICsNCiAgZ2VvbV9kZW5zaXR5KGFlcyhjb2xvcj1Nb2RlbCwgZmlsbD1Nb2RlbCksIGFscGhhPS4yNSwgc2hvdy5sZWdlbmQ9RikgKw0KICBzY2FsZV9jb2xvcl92aXJpZGlzX2QoYmVnaW4gPSAuMjUsIGVuZCA9IC43NSkgKw0KICBzY2FsZV9maWxsX3ZpcmlkaXNfZChiZWdpbiA9IC4yNSwgZW5kID0gLjc1KSArDQogIGdndGl0bGUoJ1Nsb3BlcyBmb3Igb2NjYXNpb24nKSArDQogIGxhYnMoeD0nJywgeT0nJykgKw0KICB4bGltKGMoLS4yLC40KSkgKw0KICB0aGVtZV9taW5pbWFsKCkgKw0KICB0aGVtZSgNCiAgICBheGlzLnRleHQueSA9IGVsZW1lbnRfYmxhbmsoKSwNCiAgICBheGlzLnRpY2tzLnkgPSBlbGVtZW50X2JsYW5rKCkNCiAgKQ0KDQoNCmxpYnJhcnkocGF0Y2h3b3JrKQ0KZ2ludCArIGdzbG9wZXMNCmBgYA0KDQojIyBWaXN1YWxpemF0aW9uIG9mIEVmZmVjdHMNCg0KDQpMZXQncyBsb29rIGF0IHdoYXQgdGhlIHJlc3VsdHMgYXJlIGluIHRlcm1zIG9mIHByZWRpY3Rpb24uIEZpcnN0IHdlIGNhbiBsb29rIGF0IHRoZSBtaXhlZCBlZmZlY3RzIHJlc3VsdHMuDQoNCmBgYHtyIHZpc3VhbGl6ZV9taXhlZF9maXR9DQojIGFkZCBpZiB5b3Ugd2FudCwgbm90IGRpc3BsYXllZCBhcyB0aGVyZSBhcmUgb25seSBhIGNvdXBsZSBuZWdhdGl2ZSBzbG9wZXMNCmdvaW5nX2Rvd24gPSBmYWN0b3IocmVwKGNvZWYoZ3BhX21peGVkKSRzdHVkZW50Wywnb2NjYXNpb24nXTwwLCBlPTYpLCBsYWJlbHM9YygnVXAnLCAnRG93bicpKQ0KDQpsaWJyYXJ5KG1vZGVscikgIyBhbGxvd3MgdXMgdG8gYWRkIHByZWRpY3Rpb25zIHRvIHRoZSBkYXRhIGZyYW1lDQpncGEgJT4lIA0KICBhZGRfcHJlZGljdGlvbnMoZ3BhX2xtLCB2YXI9J2xtJykgJT4lIA0KICBhZGRfcHJlZGljdGlvbnMoZ3BhX21peGVkLCB2YXI9J21peGVkJykgJT4lIA0KICBnZ3Bsb3QoKSArIA0KICBnZW9tX2xpbmUoYWVzKHg9b2NjYXNpb24sIHk9bWl4ZWQsIGdyb3VwPXN0dWRlbnQpLCBhbHBoYT0uMSwgY29sb3I9JyMwMGFhZmYnKSArDQogIGdlb21fbGluZShhZXMoeD1vY2Nhc2lvbiwgeT1sbSwgZ3JvdXA9c3R1ZGVudCksIGNvbG9yPScjZmY1NTAwJykgKw0KICBsYWJzKHk9J2dwYScpICsgDQogIHRoZW1lX21pbmltYWwoKSArDQogIHRoZW1lKHBhbmVsLmdyaWQubWlub3IgPSBlbGVtZW50X2JsYW5rKCksDQogICAgICAgIHBhbmVsLmdyaWQubWFqb3IueCA9IGVsZW1lbnRfYmxhbmsoKSkNCmBgYA0KDQpXaXRoIHRoYXQgaW4gbWluZCwgbm93IHdlIGNhbiBzZWUgdGhlIG1lc3NpZXIgJ2J5LWdyb3VwJyBhcHByb2FjaC4gIFRoZSBnZW5lcmFsIHRyZW5kIGlzIGlnbm9yZWQsIGFuZCBtYW55IG1vcmUgc3R1ZGVudHMgYXJlIHByZWRpY3RlZCB3aXRoIGRvd253YXJkIHRyZW5kcyB3aGVuIHRoZXkgcHJvYmFibHkgc2hvdWxkbid0IGJlLg0KDQpgYGB7ciB2aXN1YWxpemVfYnlfZ3JvdXBfZml0fQ0KZ29pbmdfZG93biA9IGZhY3RvcihyZXAoZ3BhX2xtX2J5X2dyb3VwWywnb2NjYXNpb24nXTwwLCBlPTYpLCBsYWJlbHM9YygnVXB3YXJkJywgJ0Rvd253YXJkJykpDQoNCmdwYSAlPiUgDQogIG11dGF0ZShzdHVmaXQ9Zml0dGVkKGdwYV9sbV9ieV9ncm91cDApKSAlPiUgDQogIGFkZF9wcmVkaWN0aW9ucyhncGFfbG0sIHZhcj0nZ3BhJykgJT4lIA0KICBhZGRfcHJlZGljdGlvbnMoZ3BhX2xtLCB2YXI9J2xtJykgJT4lIA0KICBnZ3Bsb3QoKSArDQogIGdlb21fbGluZShhZXMoeD1vY2Nhc2lvbiwgeT1zdHVmaXQsIGdyb3VwPXN0dWRlbnQsIGNvbG9yPWdvaW5nX2Rvd24sIGFscGhhID0gZ29pbmdfZG93bikpICsNCiAgZ2VvbV9saW5lKGFlcyh4PW9jY2FzaW9uLCB5PWxtKSwgDQogICAgICAgICAgICBjb2xvcj0nI2ZmNTUwMCcpICsNCiAgbGFicyh5PSdncGEnKSArIA0KICB0aGVtZV9taW5pbWFsKCkgKw0KICB0aGVtZShwYW5lbC5ncmlkLm1pbm9yID0gZWxlbWVudF9ibGFuaygpLA0KICAgICAgICBwYW5lbC5ncmlkLm1ham9yLnggPSBlbGVtZW50X2JsYW5rKCkpDQpgYGANCg0K</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTW9yZSBSYW5kb20gRWZmZWN0cyIKb3V0cHV0OiBodG1sX25vdGVib29rCmVkaXRvcl9vcHRpb25zOiAKICBjaHVua19vdXRwdXRfdHlwZTogaW5saW5lCi0tLQoKCmBgYHtyIGNodW5rX3NldHVwLCBpbmNsdWRlPUZBTFNFLCBldmFsPVRSVUV9CmtuaXRyOjpvcHRzX2NodW5rJHNldChlY2hvID0gVCwgbWVzc2FnZT1GLCB3YXJuaW5nPUYsIGNvbW1lbnQ9TkEsIGF1dG9kZXA9RiwgCiAgICAgICAgICAgICAgICAgICAgICBldmFsPVQsIGNhY2hlLnJlYnVpbGQ9RiwgY2FjaGU9VCwgUi5vcHRpb25zPWxpc3Qod2lkdGg9MTIwKSwgCiAgICAgICAgICAgICAgICAgICAgICBmaWcud2lkdGg9OCwgZmlnLmFsaWduID0gJ2NlbnRlcicsIGRldi5hcmdzPWxpc3QoYmcgPSAndHJhbnNwYXJlbnQnKSwgZGV2PSdzdmdsaXRlJykKYGBgCgpgYGB7ciBjYXRjaHVwfQojIGlmIG5lZWRlZApsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShsbWU0KQoKbG9hZCgnZGF0YS9ncGEuUkRhdGEnKQoKZ3BhX2xtID0gbG0oZ3BhIH4gb2NjYXNpb24sIGRhdGE9Z3BhKQpgYGAKCiMjIEFwcGxpY2F0aW9uCgpBZGQgYSByYW5kb20gc2xvcGUgdG8gb3VyIHByZXZpb3VzIGV4YW1wbGUgYW5kIGV4YW1pbmUgdGhlIHJlc3VsdHMuCgpgYGB7ciByYW5kb21fc2xvcGV9CmdwYV9taXhlZCA9ICBsbWVyKGdwYSB+IG9jY2FzaW9uICsgKDEgKyBvY2Nhc2lvbnxzdHVkZW50KSwgZGF0YT1ncGEpCnN1bW1hcnkoZ3BhX21peGVkKQpgYGAKCiMjIyBFeHBsb3JlIFJhbmRvbSBFZmZlY3RzCgpBcyBiZWZvcmUsIHdlIGNhbiBleGFtaW5lIHRoZSBwZXItc3R1ZGVudCByYW5kb20gZWZmZWN0cy4gCgpgYGB7ciByYW5kb21fZWZmZWN0c30KcmFuZWYoZ3BhX21peGVkKSRzdHVkZW50CmBgYAoKVW5saWtlIGJlZm9yZSwgd2Ugc2VlIGVhY2ggc3R1ZGVudCdzIG9jY2FzaW9uIGVmZmVjdC4KCmBgYHtyIHJhbmRvbV9jb2VmZmljaWVudHN9CmNvZWYoZ3BhX21peGVkKSRzdHVkZW50CmBgYAoKCiMjIENvbXBhcmlzb24gdG8gTWFueSBSZWdyZXNzaW9ucwoKVGhlIGZvbGxvd2luZyBjb2RlIGNhbGN1bGF0ZXMgcmVncmVzc2lvbiBtb2RlbHMgZm9yIGVhY2ggc3R1ZGVudCAoaS5lLiBzaXggb2JzZXJ2YXRpb25zIGFwaWVjZSkuIERlbnNpdHkgcGxvdHMgYXJlIHNob3duIGNvbXBhcmluZyByZWdyZXNzaW9ucyBydW4gZm9yIGVhY2ggc3R1ZGVudCBhbmQgdGhlIG1peGVkIG1vZGVsLgoKYGBge3IgYnlfZ3JvdXB9CmdwYV9sbV9ieV9ncm91cDAgPSBsbUxpc3QoZ3BhIH4gb2NjYXNpb24gfCBzdHVkZW50LCBncGEpCmdwYV9sbV9ieV9ncm91cCAgPSBjb2VmKGdwYV9sbV9ieV9ncm91cDApCgpnaW50ID0gCiAgZGF0YV9mcmFtZShNaXhlZD1jb2VmKGdwYV9taXhlZCkkc3R1ZGVudFssMV0sIFNlcGFyYXRlPWdwYV9sbV9ieV9ncm91cFssMV0pICU+JSAKICBnYXRoZXIoa2V5PU1vZGVsLCB2YWx1ZT1JbnRlcmNlcHQpICU+JSAKICBnZ3Bsb3QoYWVzKHg9SW50ZXJjZXB0KSkgKwogIGdlb21fZGVuc2l0eShhZXMoY29sb3I9TW9kZWwsIGZpbGw9TW9kZWwpLCBhbHBoYT0uMjUpICsKICBzY2FsZV9jb2xvcl92aXJpZGlzX2QoYmVnaW4gPSAuMjUsIGVuZCA9IC43NSkgKwogIHNjYWxlX2ZpbGxfdmlyaWRpc19kKGJlZ2luID0gLjI1LCBlbmQgPSAuNzUpICsKICBnZ3RpdGxlKCdJbnRlcmNlcHRzJykgKwogIGxhYnMoeD0nJywgeT0nJykgKwogIHhsaW0oYygxLjUsNCkpICsKICB0aGVtZV9taW5pbWFsKCkgKwogIHRoZW1lKAogICAgYXhpcy50ZXh0LnkgPSBlbGVtZW50X2JsYW5rKCksCiAgICBheGlzLnRpY2tzLnkgPSBlbGVtZW50X2JsYW5rKCksCiAgICBsZWdlbmQua2V5LnNpemU9dW5pdCgyLCAnbW0nKSwKICAgIGxlZ2VuZC50aXRsZT1lbGVtZW50X3RleHQoc2l6ZT04KSwKICAgIGxlZ2VuZC50ZXh0PWVsZW1lbnRfdGV4dChzaXplPTgpLAogICAgbGVnZW5kLmJveC5zcGFjaW5nPXVuaXQoMCwgJ2luJyksCiAgICBsZWdlbmQucG9zaXRpb249YyguODUsLjc1KQogICAgKQoKZ3Nsb3BlcyA9IAogIGRhdGFfZnJhbWUoTWl4ZWQ9Y29lZihncGFfbWl4ZWQpJHN0dWRlbnRbLDJdLCBTZXBhcmF0ZT1ncGFfbG1fYnlfZ3JvdXBbLDJdKSAlPiUgCiAgZ2F0aGVyKGtleT1Nb2RlbCwgdmFsdWU9T2NjYXNpb24pICU+JSAKICBnZ3Bsb3QoYWVzKHg9T2NjYXNpb24pKSArCiAgZ2VvbV9kZW5zaXR5KGFlcyhjb2xvcj1Nb2RlbCwgZmlsbD1Nb2RlbCksIGFscGhhPS4yNSwgc2hvdy5sZWdlbmQ9RikgKwogIHNjYWxlX2NvbG9yX3ZpcmlkaXNfZChiZWdpbiA9IC4yNSwgZW5kID0gLjc1KSArCiAgc2NhbGVfZmlsbF92aXJpZGlzX2QoYmVnaW4gPSAuMjUsIGVuZCA9IC43NSkgKwogIGdndGl0bGUoJ1Nsb3BlcyBmb3Igb2NjYXNpb24nKSArCiAgbGFicyh4PScnLCB5PScnKSArCiAgeGxpbShjKC0uMiwuNCkpICsKICB0aGVtZV9taW5pbWFsKCkgKwogIHRoZW1lKAogICAgYXhpcy50ZXh0LnkgPSBlbGVtZW50X2JsYW5rKCksCiAgICBheGlzLnRpY2tzLnkgPSBlbGVtZW50X2JsYW5rKCkKICApCgoKbGlicmFyeShwYXRjaHdvcmspCmdpbnQgKyBnc2xvcGVzCmBgYAoKIyMgVmlzdWFsaXphdGlvbiBvZiBFZmZlY3RzCgoKTGV0J3MgbG9vayBhdCB3aGF0IHRoZSByZXN1bHRzIGFyZSBpbiB0ZXJtcyBvZiBwcmVkaWN0aW9uLiBGaXJzdCB3ZSBjYW4gbG9vayBhdCB0aGUgbWl4ZWQgZWZmZWN0cyByZXN1bHRzLgoKYGBge3IgdmlzdWFsaXplX21peGVkX2ZpdH0KIyBhZGQgaWYgeW91IHdhbnQsIG5vdCBkaXNwbGF5ZWQgYXMgdGhlcmUgYXJlIG9ubHkgYSBjb3VwbGUgbmVnYXRpdmUgc2xvcGVzCmdvaW5nX2Rvd24gPSBmYWN0b3IocmVwKGNvZWYoZ3BhX21peGVkKSRzdHVkZW50Wywnb2NjYXNpb24nXTwwLCBlPTYpLCBsYWJlbHM9YygnVXAnLCAnRG93bicpKQoKbGlicmFyeShtb2RlbHIpICMgYWxsb3dzIHVzIHRvIGFkZCBwcmVkaWN0aW9ucyB0byB0aGUgZGF0YSBmcmFtZQpncGEgJT4lIAogIGFkZF9wcmVkaWN0aW9ucyhncGFfbG0sIHZhcj0nbG0nKSAlPiUgCiAgYWRkX3ByZWRpY3Rpb25zKGdwYV9taXhlZCwgdmFyPSdtaXhlZCcpICU+JSAKICBnZ3Bsb3QoKSArIAogIGdlb21fbGluZShhZXMoeD1vY2Nhc2lvbiwgeT1taXhlZCwgZ3JvdXA9c3R1ZGVudCksIGFscGhhPS4xLCBjb2xvcj0nIzAwYWFmZicpICsKICBnZW9tX2xpbmUoYWVzKHg9b2NjYXNpb24sIHk9bG0sIGdyb3VwPXN0dWRlbnQpLCBjb2xvcj0nI2ZmNTUwMCcpICsKICBsYWJzKHk9J2dwYScpICsgCiAgdGhlbWVfbWluaW1hbCgpICsKICB0aGVtZShwYW5lbC5ncmlkLm1pbm9yID0gZWxlbWVudF9ibGFuaygpLAogICAgICAgIHBhbmVsLmdyaWQubWFqb3IueCA9IGVsZW1lbnRfYmxhbmsoKSkKYGBgCgpXaXRoIHRoYXQgaW4gbWluZCwgbm93IHdlIGNhbiBzZWUgdGhlIG1lc3NpZXIgJ2J5LWdyb3VwJyBhcHByb2FjaC4gIFRoZSBnZW5lcmFsIHRyZW5kIGlzIGlnbm9yZWQsIGFuZCBtYW55IG1vcmUgc3R1ZGVudHMgYXJlIHByZWRpY3RlZCB3aXRoIGRvd253YXJkIHRyZW5kcyB3aGVuIHRoZXkgcHJvYmFibHkgc2hvdWxkbid0IGJlLgoKYGBge3IgdmlzdWFsaXplX2J5X2dyb3VwX2ZpdH0KZ29pbmdfZG93biA9IGZhY3RvcihyZXAoZ3BhX2xtX2J5X2dyb3VwWywnb2NjYXNpb24nXTwwLCBlPTYpLCBsYWJlbHM9YygnVXB3YXJkJywgJ0Rvd253YXJkJykpCgpncGEgJT4lIAogIG11dGF0ZShzdHVmaXQ9Zml0dGVkKGdwYV9sbV9ieV9ncm91cDApKSAlPiUgCiAgYWRkX3ByZWRpY3Rpb25zKGdwYV9sbSwgdmFyPSdncGEnKSAlPiUgCiAgYWRkX3ByZWRpY3Rpb25zKGdwYV9sbSwgdmFyPSdsbScpICU+JSAKICBnZ3Bsb3QoKSArCiAgZ2VvbV9saW5lKGFlcyh4PW9jY2FzaW9uLCB5PXN0dWZpdCwgZ3JvdXA9c3R1ZGVudCwgY29sb3I9Z29pbmdfZG93biwgYWxwaGEgPSBnb2luZ19kb3duKSkgKwogIGdlb21fbGluZShhZXMoeD1vY2Nhc2lvbiwgeT1sbSksIAogICAgICAgICAgICBjb2xvcj0nI2ZmNTUwMCcpICsKICBsYWJzKHk9J2dwYScpICsgCiAgdGhlbWVfbWluaW1hbCgpICsKICB0aGVtZShwYW5lbC5ncmlkLm1pbm9yID0gZWxlbWVudF9ibGFuaygpLAogICAgICAgIHBhbmVsLmdyaWQubWFqb3IueCA9IGVsZW1lbnRfYmxhbmsoKSkKYGBgCgoKCiMjIEV4ZXJjaXNlcwoKIyMjIyBTbGVlcCByZXZpc2l0ZWQKClJ1biB0aGUgc2xlZXAgc3R1ZHkgbW9kZWwgd2l0aCByYW5kb20gY29lZmZpY2llbnQgZm9yIHRoZSBEYXlzIGVmZmVjdCwgYW5kIGludGVycHJldCB0aGUgcmVzdWx0cy4gIFdoYXQgaXMgdGhlIGNvcnJlbGF0aW9uIGJldHdlZW4gdGhlIGludGVyY2VwdCBhbmQgRGF5cyByYW5kb20gZWZmZWN0cz8gIFVzZSB0aGUgYHJhbmVmYCBhbmQgYGNvZWZgIGZ1bmN0aW9ucyBvbiB0aGUgbW9kZWwgeW91J3ZlIGNyZWF0ZWQgdG8gaW5zcGVjdCB0aGUgaW5kaXZpZHVhbCBzcGVjaWZpYyBlZmZlY3RzLiBXaGF0IGRvIHlvdSBzZWU/CgpgYGB7ciBzbGVlcHN0dWR5Mn0KbGlicmFyeShsbWU0KQpkYXRhKCJzbGVlcHN0dWR5IikKCm1vZGVsID0gbG1lcig/LCBkYXRhID0gc2xlZXBzdHVkeSkKCnN1bW1hcnkobW9kZWwpCmBgYAoKSW4gdGhlIGZvbGxvd2luZywgcnVuIGVhY2ggbGluZSwgaW5zcGVjdGluZyB0aGUgcmVzdWx0IG9mIGVhY2ggYXMgeW91IGdvIGFsb25nLiAKCmBgYHtyLCBldmFsPUZBTFNFfQpyZSA9IHJhbmVmKG1vZGVsKSRTdWJqZWN0CmZlID0gZml4ZWYobW9kZWwpCmFwcGx5KHJlLCAxLCBmdW5jdGlvbih4KSB4ICsgZmUpICU+JSB0CmBgYAoKVGhlIGFib3ZlIGNvZGUgYWRkcyB0aGUgZml4ZWQgZWZmZWN0cyB0byBlYWNoIHJvdyBvZiB0aGUgcmFuZG9tIGVmZmVjdHMgKHRoZSBgdGAganVzdCB0cmFuc3Bvc2VzIHRoZSByZXN1bHQpLiBXaGF0IGlzIHRoZSByZXN1bHQgY29tcGFyZWQgdG8gd2hhdCB5b3Ugc2F3IGJlZm9yZT8KCgoKIyMjIyBTaW11bGF0aW9uIHJldmlzaXRlZAoKVGhlIGZvbGxvd2luZyBzaG93cyBhIHNpbXBsaWZpZWQgd2F5IHRvIHNpbXVsYXRlIHNvbWUgcmFuZG9tIHNsb3BlcywgYnV0IG90aGVyd2lzZSBpcyB0aGUgc2FtZSBhcyB0aGUgc2ltdWxhdGlvbiBiZWZvcmUuICBHbyBhaGVhZCBhbmQgcnVuIHRoZSBjb2RlLgoKYGBge3Igc2ltU2xvcGVzfQpzZXQuc2VlZCgxMjM0KSAgIyB0aGlzIHdpbGwgYWxsb3cgeW91IHRvIGV4YWN0bHkgZHVwbGljYXRlIHlvdXIgcmVzdWx0Ck5ncm91cHMgPSA1MApOcGVyR3JvdXAgPSAzCk4gPSBOZ3JvdXBzICogTnBlckdyb3VwCmdyb3VwcyA9IGZhY3RvcihyZXAoMTpOZ3JvdXBzLCBlYWNoID0gTnBlckdyb3VwKSkKcmVfaW50ID0gcm5vcm0oTmdyb3Vwcywgc2QgPSAuNzUpCnJlX3Nsb3BlID0gcm5vcm0oTmdyb3Vwcywgc2QgPSAuMjUpCmUgPSBybm9ybShOLCBzZCA9IC4yNSkKeCA9IHJub3JtKE4pCnkgPSAoMiArIHJlX2ludFtncm91cHNdKSArICguNSArIHJlX3Nsb3BlW2dyb3Vwc10pICogeCArIGUKCmQgPSBkYXRhLmZyYW1lKHgsIHksIGdyb3VwcykKYGBgCgpUaGlzIG5leHQgYml0IG9mIGNvZGUgc2hvd3MgYSB3YXkgdG8gcnVuIGEgbWl4ZWQgbW9kZWwgd2hpbGUgc3BlY2lmeWluZyB0aGF0IHRoZXJlIGlzIG5vIGNvcnJlbGF0aW9uIGJldHdlZW4gaW50ZXJjZXB0cyBhbmQgc2xvcGVzLiAgVGhlcmUgaXMgZ2VuZXJhbGx5IG5vIHJlYXNvbiB0byBkbyB0aGlzIHVubGVzcyB0aGUgc3R1ZHkgZGVzaWduIHdhcnJhbnRzIGl0LCBidXQgeW91IGNvdWxkIGRvIGl0IGFzIGEgc3RlcCBpbiB0aGUgbW9kZWwtYnVpbGRpbmcgcHJvY2Vzcywgc3VjaCB0aGF0IHlvdSBmaXQgYSBtb2RlbCB3aXRoIG5vIGNvcnJlbGF0aW9uLCB0aGVuIG9uZSB3aXRoIGl0LgoKYGBge3Igc2ltU2xvcGVzMiwgZXZhbD1GQUxTRX0KbW9kZWxfaW50c19vbmx5ID0gbG1lcih5IH4geCArICgxIHwgZ3JvdXBzKSwgZGF0YSA9IGQpCm1vZGVsX3dpdGhfc2xvcGVzID0gbG1lcih5IH4geCArICgxIHwgZ3JvdXBzKSArICgwICsgeCB8IGdyb3VwcyksIGRhdGEgPSBkKQpzdW1tYXJ5KG1vZGVsX3dpdGhfc2xvcGVzKQpjb25maW50KG1vZGVsX3dpdGhfc2xvcGVzKQoKbGlicmFyeShnZ3Bsb3QyKQpnZ3Bsb3QoYWVzKHgsIHkpLCBkYXRhPWQpICsKICBnZW9tX3BvaW50KCkKYGBgCgpDb21wYXJlIG1vZGVsIGZpdCB1c2luZyB0aGUgYEFJQ2AgZnVuY3Rpb24sIGUuZy4gYEFJQyhtb2RlbClgLiAgVGhlIG1vZGVsIHdpdGggdGhlIGxvd2VyIEFJQyBpcyB0aGUgYmV0dGVyIG1vZGVsLCBzbyB3aGljaCB3b3VsZCB5b3UgY2hvb3NlPwo=</div>
 
 
 

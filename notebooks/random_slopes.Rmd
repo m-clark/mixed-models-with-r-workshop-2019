@@ -137,3 +137,65 @@ gpa %>%
         panel.grid.major.x = element_blank())
 ```
 
+
+
+## Exercises
+
+#### Sleep revisited
+
+Run the sleep study model with random coefficient for the Days effect, and interpret the results.  What is the correlation between the intercept and Days random effects?  Use the `ranef` and `coef` functions on the model you've created to inspect the individual specific effects. What do you see?
+
+```{r sleepstudy2}
+library(lme4)
+data("sleepstudy")
+
+model = lmer(?, data = sleepstudy)
+
+summary(model)
+```
+
+In the following, run each line, inspecting the result of each as you go along. 
+
+```{r, eval=FALSE}
+re = ranef(model)$Subject
+fe = fixef(model)
+apply(re, 1, function(x) x + fe) %>% t
+```
+
+The above code adds the fixed effects to each row of the random effects (the `t` just transposes the result). What is the result compared to what you saw before?
+
+
+
+#### Simulation revisited
+
+The following shows a simplified way to simulate some random slopes, but otherwise is the same as the simulation before.  Go ahead and run the code.
+
+```{r simSlopes}
+set.seed(1234)  # this will allow you to exactly duplicate your result
+Ngroups = 50
+NperGroup = 3
+N = Ngroups * NperGroup
+groups = factor(rep(1:Ngroups, each = NperGroup))
+re_int = rnorm(Ngroups, sd = .75)
+re_slope = rnorm(Ngroups, sd = .25)
+e = rnorm(N, sd = .25)
+x = rnorm(N)
+y = (2 + re_int[groups]) + (.5 + re_slope[groups]) * x + e
+
+d = data.frame(x, y, groups)
+```
+
+This next bit of code shows a way to run a mixed model while specifying that there is no correlation between intercepts and slopes.  There is generally no reason to do this unless the study design warrants it, but you could do it as a step in the model-building process, such that you fit a model with no correlation, then one with it.
+
+```{r simSlopes2, eval=FALSE}
+model_ints_only = lmer(y ~ x + (1 | groups), data = d)
+model_with_slopes = lmer(y ~ x + (1 | groups) + (0 + x | groups), data = d)
+summary(model_with_slopes)
+confint(model_with_slopes)
+
+library(ggplot2)
+ggplot(aes(x, y), data=d) +
+  geom_point()
+```
+
+Compare model fit using the `AIC` function, e.g. `AIC(model)`.  The model with the lower AIC is the better model, so which would you choose?
