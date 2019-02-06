@@ -112,7 +112,7 @@ head(sleepstudy)
 
 Rerun the mixed model with the GPA data adding the cluster level covariate of `sex`, or high school GPA (`highgpa`), or both.  Interpret all aspects of the results.
 
-```{r gpa_cluster}
+```{r gpa_cluster, eval=FALSE}
 gpa_mixed_cluster_level = lmer(?, gpa)
 
 summary(gpa_mixed_cluster_level)
@@ -126,7 +126,7 @@ What happened to the student variance after adding cluster level covariates to t
 
 The following represents a simple way to simulate a random intercepts model.  Note each object what each object is, and make sure the code make sense to you.  Then run it.
 
-```{r simMixed, eval=FALSE}
+```{r simMixed}
 set.seed(1234)  # this will allow you to exactly duplicate your result
 Ngroups = 100
 NperGroup = 3
