@@ -145,7 +145,7 @@ gpa %>%
 
 Run the sleep study model with random coefficient for the Days effect, and interpret the results.  What is the correlation between the intercept and Days random effects?  Use the `ranef` and `coef` functions on the model you've created to inspect the individual specific effects. What do you see?
 
-```{r sleepstudy2}
+```{r sleepstudy2, eval=FALSE}
 library(lme4)
 data("sleepstudy")
 
