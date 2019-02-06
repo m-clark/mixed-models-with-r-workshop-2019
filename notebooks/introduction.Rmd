@@ -30,7 +30,7 @@ lm_model = lm(Reaction ~ Days, data = sleepstudy)
 summary(lm_model)
 ```
 
-Now we will run a mixed model.  Here we will allow for *random effects*, which are specific effects for each individual.
+Now we will run a mixed model.  Here we will allow for *random effects*, which are specific effects for each individual, and come from some distribution, e.g. normal with mean zero and some variances - $\mathcal{N}(0, \sigma^2_{individual})$.
 
 ```{r mixed_model}
 mixed_model = lmer(Reaction ~ Days + (1 + Days|Subject), data = sleepstudy)
@@ -38,7 +38,7 @@ mixed_model = lmer(Reaction ~ Days + (1 + Days|Subject), data = sleepstudy)
 summary(mixed_model)
 ```
 
-Three parts of the above output are the same as we would get using the `lm` function.  The 'fixed effects' coefficients are in fact identical, though we can see they have different standard errors.  In addition, we have the residual variance and standard deviation.  The latter is the same thing as the residual standard error from `lm`, but we can see its value is different.  That *unexplained* variance has now been partitioned into different parts.
+Three parts of the above output are the same as we would get using the `lm` function.  The 'fixed effects' coefficients are in fact identical, though we can see they have different standard errors, and for many mixed model settings the coefficients would not be exactly the same.  In addition, we have the residual variance and standard deviation.  The latter is the same thing as the residual standard error from `lm`, but we can see its value is different.  That *unexplained* variance has now been partitioned into different parts.
 
 In this model we allow both intercepts and the coefficient for Days to vary by student.  The estimated standard deviation tells what how much we would deviate from the normal effect (i.e. the fixed effects above) as we move from student to student, on average.
 
@@ -47,7 +47,7 @@ print(VarCorr(mixed_model), comp=c('Var', 'Std'))
 ```
 
 
-We can get estimates of these individual specific deviations.
+We can also get estimates of these individual specific deviations.
 
 ```{r random_effects}
 random_effects = ranef(mixed_model)$Subject
