@@ -86,7 +86,7 @@ See exercises.
 
 ### Sleep
 
-For this exercise, we'll use the sleep study data from the <span class="pack">lme4</span> package.  The following describes it.
+For this exercise, we'll use the sleep study data from the `lme4` package.  The following describes it.
 
 > The average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time (in milliseconds) on a series of tests given each day to each subject.
 
@@ -110,7 +110,7 @@ head(sleepstudy)
 
 ### Cluster level covariate
 
-Rerun the mixed model with the [GPA data][Mixed model] adding the cluster level covariate of `sex`, or high school GPA (`highgpa`), or both.  Interpret all aspects of the results.
+Rerun the mixed model with the GPA data adding the cluster level covariate of `sex`, or high school GPA (`highgpa`), or both.  Interpret all aspects of the results.
 
 ```{r gpa_cluster}
 gpa_mixed_cluster_level = lmer(?, gpa)
@@ -130,12 +130,12 @@ The following represents a simple way to simulate a random intercepts model.  No
 set.seed(1234)  # this will allow you to exactly duplicate your result
 Ngroups = 100
 NperGroup = 3
-N = Ngroups*NperGroup
-groups = factor(rep(1:Ngroups, each=NperGroup))
-u = rnorm(Ngroups, sd=.5)
-e = rnorm(N, sd=.25)
+N = Ngroups * NperGroup
+groups = factor(rep(1:Ngroups, each = NperGroup))
+u = rnorm(Ngroups, sd = .5)
+e = rnorm(N, sd = .25)
 x = rnorm(N)
-y = 2 + .5*x + u[groups] + e
+y = 2 + .5 * x + u[groups] + e
 
 d = data.frame(x, y, groups)
 ```
@@ -158,7 +158,11 @@ Do the results seem in keeping with what you expect?
 
 In what follows we'll change various aspects of the data, then rerun the model after each change, then summarize and get confidence intervals as before.  For each note specifically at least one thing that changed in the results.
 
-0. First calculate or simply eyeball the intraclass correlation coefficient $\frac{\textrm{random effect variance}}{\textrm{residual + random effect variance}}$.  In addition, create a density plot of the random effects as follows.
+0. First calculate or simply eyeball the intraclass correlation coefficient:
+
+$$\frac{\textrm{random effect variance}}{\textrm{residual + random effect variance}}$$
+
+In addition, create a density plot of the random effects as follows.
 
 ```{r simMixed3, eval=FALSE}
 re = ranef(model)$groups
