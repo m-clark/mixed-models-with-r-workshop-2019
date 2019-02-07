@@ -198,7 +198,7 @@ corr_res = lme(
   correlation = corAR1(form = ~occasion)
 )
 
-summary(corr_res)
+corr_res
 ```
 
 ## Generalized Linear Mixed Models
